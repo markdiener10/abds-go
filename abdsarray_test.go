@@ -19,7 +19,7 @@ func TestArrayOperations(t *testing.T) {
 	var pItem *AbdsItem
 
 	for idx = 0; idx < 10; idx++ {
-		g.Add(idx + 1)
+		g.Add(idx+1)
 	}
 	if g.Len() != 10 {
 		t.Errorf("Abds set to array mode but fails to add 10 items:%d", g.Len())

@@ -51,7 +51,7 @@ func (g *Abds) G(tag string, parms ...interface{}) *AbdsItem {
 
 	tag = strings.TrimSpace(tag)
 	if tag == "" {
-		parmerr(fmt.Errorf("Top Value called with empty tag"), parms...)
+		parmerr(fmt.Errorf("ABDS Top Value called with empty tag"), parms...)
 		//But we now have a tagless item in our array
 	}
 	if g.flags&TAGCASE == 0 {
@@ -71,7 +71,7 @@ func (g *Abds) N(tag string, parms ...interface{}) *Abds {
 
 	tag = strings.TrimSpace(tag)
 	if tag == "" {
-		parmerr(fmt.Errorf("Top Value called with empty tag"), parms...)
+		parmerr(fmt.Errorf("ABDS Top Value called with empty tag"), parms...)
 		return nil
 	}
 	if g.flags&TAGCASE == 0 {
@@ -92,7 +92,7 @@ func (g *Abds) N(tag string, parms ...interface{}) *Abds {
 
 func (g *Abds) Copy(src *Abds) error {
 	if src == nil {
-		return fmt.Errorf("Invalid Abds parameter passed for copy")
+		return fmt.Errorf("ABDS Invalid Abds parameter passed for copy")
 	}
 	g.Vals = make([]*AbdsItem, 0)
 	g.Vals = append(g.Vals, (*src).Vals...)

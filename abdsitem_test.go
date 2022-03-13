@@ -1,7 +1,7 @@
 package abds
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 )
 
@@ -22,7 +22,7 @@ func (g *TestTransform) Pack() *Abds {
 
 func (g *TestTransform) UnPack(input *Abds) error {
 	if input == nil {
-		return errors.New("Invalid Abds parameter passed")
+		return fmt.Errorf("ABDS Invalid Abds parameter passed")
 	}
 	//g.what = input.T("WHAT").V()
 	return nil

@@ -12,16 +12,13 @@ func TestTopLevelSort(t *testing.T) {
 	}
 
 	g.Sort(func(pa *AbdsItem, pb *AbdsItem) bool {
-		if pa.Vi() < pb.Vi() {
-			return true
-		}
-		return false
+		return pa.Vu() < pb.Vu()
 	})
 
 	it := NewIter()
 	for g.Iter(it) {
 		if it.I() != uint(11-it.Vu()) {
-			t.Errorf("Sort Not Working:%d", it.Vu())
+			t.Errorf("Sort Not Working:%d:%d", it.I(), it.Vu())
 		}
 	}
 }

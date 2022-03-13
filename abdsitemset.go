@@ -7,7 +7,7 @@ import (
 func (g *AbdsItem) S(val interface{}, parms ...interface{}) {
 
 	if !checkType(val) {
-		parmerr(fmt.Errorf("Tag:%s Invalid Type passed", g.tag), parms...)
+		parmerr(fmt.Errorf("ABDS Tag:%s Invalid Type passed:%T", g.tag, val), parms...)
 		return
 	}
 
@@ -98,7 +98,6 @@ func (g *AbdsItem) S(val interface{}, parms ...interface{}) {
 func (g *AbdsItem) SetAbds(val *Abds, parms ...interface{}) {
 	g.S(val, parms...)
 }
-
 
 //Provide a member function that will enforce at compile time the AbdsTransform interface
 func (g *AbdsItem) SetStru(val *AbdsTransform, parms ...interface{}) {
