@@ -9,12 +9,9 @@ import (
 
 //Bit Behavior Flags
 const (
-	ISARRAY  uint64 = 1 << iota
-	TAGCASE         //Allow for mixed case tags
-	ERRORSET        //Set a bit to indicate that we have errors
+	ARRAY   uint64 = 1 << iota
+	TAGCASE        //Allow for mixed case tags
 	RECURSE
-	NOAUTO
-	FORCEAUTO
 )
 
 //TODO?:Maybe space for package code in high order bits
@@ -25,20 +22,17 @@ type Abds struct {
 	Vals  []*AbdsItem
 }
 
-type AbdsSortFunc func(p1 *AbdsItem, p2 *AbdsItem) bool
+func (g *Abds) Len() uint {
+	return uint(len(g.Vals))
+}
 
-func (g *Abds) IsErr() bool {
-	if g.flags&ERRORSET == 0 {
-		return false
-	}
-	return true
+func (g *Abds) Flags(flags uint64) *Abds {
+	g.flags = flags
+	return g
 }
 
 func (g *Abds) Is(tag string, parms ...interface{}) bool {
 
-	if g.IsArray() {
-		return false
-	}
 	tag = strings.TrimSpace(tag)
 	if tag == "" {
 		return false
@@ -46,36 +40,20 @@ func (g *Abds) Is(tag string, parms ...interface{}) bool {
 	if g.flags&TAGCASE == 0 {
 		tag = strings.ToUpper(tag)
 	}
-
 	pItem := g.find(tag, parmflag(RECURSE, parms...))
 	if pItem == nil {
 		return false
 	}
 	return true
-
 }
 
-func (g *Abds) T(tag string, parms ...interface{}) *AbdsItem {
+func (g *Abds) G(tag string, parms ...interface{}) *AbdsItem {
 
 	tag = strings.TrimSpace(tag)
 	if tag == "" {
-		if parms == nil {
-			parms = make([]interface{},0)
-		}	
-		parms = append(parms,g)	
-		errset(fmt.Errorf("Called Tag with empty tag"), parms...)
-		return nil
+		parmerr(fmt.Errorf("Top Value called with empty tag"), parms...)
+		//But we now have a tagless item in our array
 	}
-
-	if g.IsArray() {
-		if parms == nil {
-			parms = make([]interface{},0)
-		}	
-		parms = append(parms,g)	
-		errset(fmt.Errorf("Called Tag in Array Mode:%s", tag), parms...)
-		return nil
-	}
-
 	if g.flags&TAGCASE == 0 {
 		tag = strings.ToUpper(tag)
 	}
@@ -83,93 +61,44 @@ func (g *Abds) T(tag string, parms ...interface{}) *AbdsItem {
 	if pItem != nil {
 		return pItem
 	}
-
-	if !parmflag(FORCEAUTO, parms...) {
-		if g.flags&NOAUTO != 0 {
-			return nil
-		}
-		if parmflag(NOAUTO, parms...) {
-			return nil
-		}
-	}
-	pItem = &AbdsItem{tag: tag, Val: nil}
+	pItem = &AbdsItem{tag: tag, val: nil}
 	g.Vals = append(g.Vals, pItem)
 	return pItem
 }
 
-func (g *Abds) P(tag string, val interface{}, parms ...interface{}) {
-	pItem := g.T(tag, parms...)
+//Convenience function to add
+func (g *Abds) N(tag string, parms ...interface{}) *Abds {
+
+	tag = strings.TrimSpace(tag)
+	if tag == "" {
+		parmerr(fmt.Errorf("Top Value called with empty tag"), parms...)
+		return nil
+	}
+	if g.flags&TAGCASE == 0 {
+		tag = strings.ToUpper(tag)
+	}
+
+	gabds := New(parms...)
+
+	pItem := g.find(tag, false)
 	if pItem == nil {
-		return
+		pItem = &AbdsItem{tag: tag, val: gabds}
+		g.Vals = append(g.Vals, pItem)
+		return gabds
 	}
-	pItem.P(val, parms...)
+	pItem.S(gabds)
+	return gabds
 }
 
-func (g *Abds) Len() uint {
-	return uint(len(g.Vals))
-}
-
-func (g *Abds) Flags(flags uint64) *Abds {
-	//Default case: most flexible
-	if flags == 0 {
-		g.flags = 0
-		return g
+func (g *Abds) Copy(src *Abds) error {
+	if src == nil {
+		return fmt.Errorf("Invalid Abds parameter passed for copy")
 	}
-
-	/*
-
-		//We could add flag edge triggers and re-configure the abds structure
-		var Item *AbdsItem
-		var index int
-
-		for index = 0; index < len(g.Vals); index++ {
-			Item = &g.Vals[index]
-			if flags&ABDSTAGCASE != 0 {
-				Item.Tag = strings.toUpper(Item.Tag)
-			}
-		}
-	*/
-	g.flags = flags
-	return g
+	g.Vals = make([]*AbdsItem, 0)
+	g.Vals = append(g.Vals, (*src).Vals...)
+	return nil
 }
 
-//Sorting functions (Depending on Size O(n))
-func (g *Abds) Sort(fn AbdsSortFunc) {
-
-	if fn == nil {
-		return
-	}
-	var swapped bool
-	var pitema *AbdsItem
-	var pitemb *AbdsItem
-
-	n := len(g.Vals)
-
-	for i := 0; i < n-1; i++ {
-		swapped = false
-		for j := 0; j < n-i-1; j++ {
-			pitema = g.Vals[j]
-			pitemb = g.Vals[j+1]
-			if fn(pitema, pitemb) == true {
-				g.Vals[j] = pitemb
-				g.Vals[j+1] = pitema
-				swapped = true
-			}
-		}
-		if swapped == false {
-			break
-		}
-	}
-}
-
-func N(flags uint64) *Abds {
-	return New().Flags(flags)
-}
-
-func NA(flags uint64) *Abds {
-	return New().Flags(ISARRAY | flags)
-}
-
-func New() *Abds {
-	return &Abds{flags: 0, Vals: make([]*AbdsItem, 0)}
+func New(parms ...interface{}) *Abds {
+	return &Abds{flags: parmflags(parms...), Vals: make([]*AbdsItem, 0)}
 }

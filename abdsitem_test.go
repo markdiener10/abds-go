@@ -2,7 +2,6 @@ package abds
 
 import (
 	"errors"
-	_ "fmt"
 	"testing"
 )
 
@@ -17,7 +16,7 @@ type TestTransform struct {
 
 func (g *TestTransform) Pack() *Abds {
 	abds := New()
-	abds.P("WHAT", g.what)
+	abds.S("WHAT", g.what)
 	return abds
 }
 
@@ -25,7 +24,7 @@ func (g *TestTransform) UnPack(input *Abds) error {
 	if input == nil {
 		return errors.New("Invalid Abds parameter passed")
 	}
-	g.what = input.T("WHAT").Rs()
+	//g.what = input.T("WHAT").V()
 	return nil
 }
 
@@ -139,9 +138,26 @@ func init() {
 func TestItemOperations(t *testing.T) {
 
 	g := New()
-	gitem := g.T("TAG")
+
+	gitem := g.G("TAG")
 	for _, git := range gtestvals {
-		gitem.P(git)
+
+		gitem.S(git)
+		gitem.V()
+		gitem.Vi()
+		/*
+			gitem.Vi8()
+			gitem.Vi16()
+			gitem.Vi32()
+			gitem.Vi64()
+			gitem.Vu()
+			gitem.Vu8()
+			gitem.Vu16()
+			gitem.Vu32()
+			gitem.Vu64()
+			gitem.Vs()
+		*/
+
 	}
 
 	//gitem.

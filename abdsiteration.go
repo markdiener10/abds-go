@@ -36,10 +36,10 @@ func (g *AbdsIter) Reset() {
 
 func (g *AbdsIter) P(val interface{}, parms ...interface{}) {
 	if g.pItem == nil {
-		errset(fmt.Errorf("Iterator has no valid item:%d", g.index), parms...)
+		parmerr(fmt.Errorf("Iterator has no valid item:%d", g.index), parms...)
 		return
 	}
-	g.pItem.P(val, nil)
+	g.pItem.S(val)
 }
 
 func (g *AbdsIter) T() *AbdsItem {

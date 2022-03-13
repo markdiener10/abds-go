@@ -4,13 +4,42 @@ import (
 	_ "fmt"
 )
 
-func parmerr(parms ...interface{}) *AbdsErr {
-	for _, parm := range parms {
-		gerr, ok := parm.(*AbdsErr)
+func (g *Abds) find(tag string, recurse bool) *AbdsItem {
+
+	var index int
+	var pItem *AbdsItem = nil
+
+	for index = 0; index < len(g.Vals); index++ {
+		pItem = g.Vals[index]
+		if pItem == nil {
+			continue
+		}
+		if pItem.Ts() != tag {
+			continue
+		}
+		return pItem
+	}
+	if !recurse {
+		return nil
+	}
+
+	var child *Abds
+	var ok bool
+
+	for index = 0; index < len(g.Vals); index++ {
+		pItem = g.Vals[index]
+		child, ok = pItem.val.(*Abds)
 		if !ok {
 			continue
 		}
-		return gerr
+		if child == nil {
+			continue
+		}
+		pItem = child.find(tag, true)
+		if pItem == nil {
+			continue
+		}
+		return pItem
 	}
 	return nil
 }
@@ -29,80 +58,20 @@ func parmflag(flag uint64, parms ...interface{}) bool {
 	return false
 }
 
-func (g *Abds) find(tag string, recurse bool) *AbdsItem {
-
-	var index int
-	var pItem *AbdsItem = nil
-
-	if g.IsArray() {
-		if !recurse {
-			return nil
-		}
-		//
-		goto CHILDSCAN
-	}
-
-	for index = 0; index < len(g.Vals); index++ {
-		pItem = g.Vals[index]
-		if pItem == nil {
-			continue
-		}
-		if pItem.tag != tag {
-			continue
-		}
-		return pItem
-	}
-
-	if !recurse {
-		return nil
-	}
-
-	//Only scan the children AFTER scanning the parent
-CHILDSCAN:
-
-	var pchild *Abds
-	var child Abds
-	var ok bool
-
-	for index = 0; index < len(g.Vals); index++ {
-		pItem = g.Vals[index]
-		child, ok = pItem.Val.(Abds)
-		if ok {
-			pchild = &child
-		} else {
-			pchild, ok = pItem.Val.(*Abds)
-		}
+func parmflags(parms ...interface{}) (flags uint64) {
+	flags = 0
+	for _, parm := range parms {
+		flag, ok := parm.(uint64)
 		if !ok {
 			continue
 		}
-		if pchild == nil {
-			continue
-		}
-		pItem = pchild.find(tag, true)
-		if pItem == nil {
-			continue
-		}
-		return pItem
+		flags |= flag
 	}
-	return nil
+	return flags
 }
 
-func errclear(g *Abds, errs *AbdsErr) {
-	if g != nil {
-		g.flags &= ^(ERRORSET)
-	}
-	if errs != nil {
-		errs.Reset()
-	}
-}
-
-func errset(err error, parms ...interface{}) {
+func parmerr(err error, parms ...interface{}) {
 	for _, parm := range parms {
-		gabds, ok := parm.(*Abds)
-		if ok {
-			gabds.flags |= ERRORSET
-			continue
-		}
 		gerr, ok := parm.(*AbdsErr)
 		if !ok {
 			continue

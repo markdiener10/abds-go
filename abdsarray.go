@@ -6,7 +6,7 @@ import (
 )
 
 func (g *Abds) IsArray() bool {
-	if g.flags&ISARRAY == 0 {
+	if g.flags&ARRAY == 0 {
 		return false
 	}
 	return true
@@ -14,29 +14,17 @@ func (g *Abds) IsArray() bool {
 
 func (g *Abds) Add(val interface{}, parms ...interface{}) bool {
 
-	if !g.IsArray() {
-		if parms == nil {
-			parms = make([]interface{},0)
-		}
-		parms = append(parms,g)
-		errset(fmt.Errorf("Adding array element to tag based abds"), parms...)
-		return false
-	}
 	if !checkType(val) {
-		if parms == nil {
-			parms = make([]interface{},0)
-		}
-		parms = append(parms,g)
-		errset(fmt.Errorf("Invalid Type passed for add:%x", val), parms...)
+		parmerr(fmt.Errorf("Invalid Type passed for add:%x", val), parms...)
 		return false
 	}
 	idx := g.Len()
-	pItem := &AbdsItem{tag: idx + 1, Val: val}
+	pItem := &AbdsItem{tag: idx + 1, val: val}
 	g.Vals = append(g.Vals, pItem)
 	return true
 }
 
-func (g *Abds) I(idx uint) *AbdsItem {
+func (g *Abds) AG(idx uint) *AbdsItem {
 	if idx < 1 {
 		return nil
 	}
@@ -46,16 +34,18 @@ func (g *Abds) I(idx uint) *AbdsItem {
 	return g.Vals[idx-1]
 }
 
-func (g *Abds) IP(idx uint, val interface{}, parms ...interface{}) {
+func (g *Abds) AN(val interface{}, parms ...interface{}) (*Abds, bool) {
+	return nil, false
+}
+
+func (g *Abds) AP(idx uint, val interface{}, parms ...interface{}) {
 	if !checkType(val) {
-		parms = append(parms, g)
-		errset(fmt.Errorf("Invalid Type passed for add:%x", val), parms...)
+		parmerr(fmt.Errorf("Invalid Type passed for add:%x", val), parms...)
 		return
 	}
-	pItem := g.I(idx)
+	pItem := g.AG(idx)
 	if pItem == nil {
-		parms = append(parms, g)		
-		errset(fmt.Errorf("Item for index not found:%d", idx), parms...)
+		parmerr(fmt.Errorf("Item for index not found:%d", idx), parms...)
 	}
-	pItem.P(val, parms...)
+	pItem.S(val, parms...)
 }
