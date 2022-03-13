@@ -27,7 +27,7 @@ func TestErrorOperations(t *testing.T) {
 
 	errs.Reset()
 
-	if g.G("CMD", errs) != nil {
+	if g.Is("CMD", errs) {
 		t.Error("Default Abds retrieves elements that should not exist")
 	}
 

@@ -29,7 +29,7 @@ func TestTopLevelOperations(t *testing.T) {
 		g.S("TAG", git)
 	}
 
-	if g.G("CMD", RECURSE) != nil {
+	if g.Is("CMD", RECURSE) {
 		t.Error("Default Abds retrieves elements that should not exist")
 	}
 

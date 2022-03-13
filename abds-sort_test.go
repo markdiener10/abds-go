@@ -20,8 +20,8 @@ func TestTopLevelSort(t *testing.T) {
 
 	it := NewIter()
 	for g.Iter(it) {
-		if it.I() != uint(11-it.T().Vi()) {
-			t.Errorf("Sort Not Working:%d", it.T().Vi())
+		if it.I() != uint(11-it.Vu()) {
+			t.Errorf("Sort Not Working:%d", it.Vu())
 		}
 	}
 }

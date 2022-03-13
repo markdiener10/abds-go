@@ -19,7 +19,8 @@ func (g *Abds) Add(val interface{}, parms ...interface{}) bool {
 		return false
 	}
 	idx := g.Len()
-	pItem := &AbdsItem{tag: idx + 1, val: val}
+	pItem := &AbdsItem{tag: idx + 1, val: nil}
+	pItem.S(val, parms)
 	g.Vals = append(g.Vals, pItem)
 	return true
 }
