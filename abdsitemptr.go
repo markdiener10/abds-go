@@ -1,6 +1,7 @@
 package abds
 
-func (g *AbdsItem) Pb() *bool {
+func (g *AbdsItem) PB() *bool {
+
 	switch g.val.(type) {
 	case *bool:
 		break
@@ -11,6 +12,7 @@ func (g *AbdsItem) Pb() *bool {
 }
 
 func (g *AbdsItem) Pi() *int {
+
 	switch g.val.(type) {
 	case *int:
 		break
@@ -21,6 +23,7 @@ func (g *AbdsItem) Pi() *int {
 }
 
 func (g *AbdsItem) Pi8() *int8 {
+
 	switch g.val.(type) {
 	case *int8:
 		break
@@ -31,6 +34,7 @@ func (g *AbdsItem) Pi8() *int8 {
 }
 
 func (g *AbdsItem) Pi16() *int16 {
+
 	switch g.val.(type) {
 	case *int:
 		break
@@ -41,6 +45,7 @@ func (g *AbdsItem) Pi16() *int16 {
 }
 
 func (g *AbdsItem) Pi32() *int32 {
+
 	switch g.val.(type) {
 	case *int32:
 		break
@@ -51,6 +56,7 @@ func (g *AbdsItem) Pi32() *int32 {
 }
 
 func (g *AbdsItem) Pi64() *int64 {
+
 	switch g.val.(type) {
 	case *int64:
 		break
@@ -61,6 +67,7 @@ func (g *AbdsItem) Pi64() *int64 {
 }
 
 func (g *AbdsItem) Pu() *uint {
+
 	switch g.val.(type) {
 	case *uint:
 		break
@@ -71,6 +78,7 @@ func (g *AbdsItem) Pu() *uint {
 }
 
 func (g *AbdsItem) Pu8() *uint8 {
+
 	switch g.val.(type) {
 	case *uint8:
 		break
@@ -81,6 +89,7 @@ func (g *AbdsItem) Pu8() *uint8 {
 }
 
 func (g *AbdsItem) Pu16() *uint16 {
+
 	switch g.val.(type) {
 	case *uint16:
 		break
@@ -91,6 +100,7 @@ func (g *AbdsItem) Pu16() *uint16 {
 }
 
 func (g *AbdsItem) Pu32() *uint32 {
+
 	switch g.val.(type) {
 	case *uint32:
 		break
@@ -101,6 +111,7 @@ func (g *AbdsItem) Pu32() *uint32 {
 }
 
 func (g *AbdsItem) Pu64() *uint64 {
+
 	switch g.val.(type) {
 	case *uint64:
 		break
@@ -111,6 +122,7 @@ func (g *AbdsItem) Pu64() *uint64 {
 }
 
 func (g *AbdsItem) Pf32() *float32 {
+
 	switch g.val.(type) {
 	case *float32:
 		break
@@ -121,6 +133,7 @@ func (g *AbdsItem) Pf32() *float32 {
 }
 
 func (g *AbdsItem) Pf64() *float64 {
+
 	switch g.val.(type) {
 	case *float64:
 		break
@@ -131,6 +144,7 @@ func (g *AbdsItem) Pf64() *float64 {
 }
 
 func (g *AbdsItem) Pc64() *complex64 {
+
 	switch g.val.(type) {
 	case *complex64:
 		break
@@ -141,6 +155,7 @@ func (g *AbdsItem) Pc64() *complex64 {
 }
 
 func (g *AbdsItem) Pc128() *complex128 {
+
 	switch g.val.(type) {
 	case *complex128:
 		break
@@ -151,6 +166,7 @@ func (g *AbdsItem) Pc128() *complex128 {
 }
 
 func (g *AbdsItem) Ps() *string {
+
 	switch g.val.(type) {
 	case *string:
 		break
@@ -160,7 +176,8 @@ func (g *AbdsItem) Ps() *string {
 	return g.val.(*string)
 }
 
-func (g *AbdsItem) Pbyte() *[]byte {
+func (g *AbdsItem) Pb() *[]byte {
+
 	switch g.val.(type) {
 	case *[]byte:
 		break
@@ -168,6 +185,10 @@ func (g *AbdsItem) Pbyte() *[]byte {
 		g.S(g.Vb())
 	}
 	return g.val.(*[]byte)
+}
+
+func (g *AbdsItem) Pbyte() *[]byte {
+	return g.Pb()
 }
 
 func (g *AbdsItem) Prune() *[]rune {
@@ -181,6 +202,14 @@ func (g *AbdsItem) Prune() *[]rune {
 }
 
 func (g *AbdsItem) Pabds() *Abds {
+	return g.Pch()
+}
+
+func (g *AbdsItem) Pchild() *Abds {
+	return g.Pch()
+}
+
+func (g *AbdsItem) Pch() *Abds {
 	switch g.val.(type) {
 	case *Abds:
 		return g.val.(*Abds)
@@ -188,10 +217,10 @@ func (g *AbdsItem) Pabds() *Abds {
 	return nil
 }
 
-func (g *AbdsItem) Ptran() interface{} {
+func (g *AbdsItem) Ptran() *AbdsTransform {
 	switch g.val.(type) {
 	case *AbdsTransform:
-		return g.val
+		return g.val.(*AbdsTransform)
 	}
 	return nil
 }

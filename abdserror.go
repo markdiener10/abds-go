@@ -10,6 +10,17 @@ func (g *AbdsErr) Log(err error) {
 	g.errors = append(g.errors, err)
 }
 
+func (g *AbdsErr) Is() bool {
+	if g.count == 0 {
+		return false
+	}
+	return true
+}
+
+func (g *AbdsErr) IsErr() bool {
+	return g.Check()
+}
+
 func (g *AbdsErr) Check() bool {
 	if g.count == 0 {
 		return false

@@ -4,33 +4,37 @@ import (
 	"testing"
 )
 
-func TestTopLevelOperations(t *testing.T) {
+func TestTopLevelObjectOperations(t *testing.T) {
 
 	g := New()
-	if g == nil {
-		t.Error("Unable to allocate abds struct")
-	}
 	if g.IsArray() {
-		t.Error("Default Abds is an array when it should be tag (object) based")
+		t.Error("Abds set to object mode but reports as array mode")
 	}
-	if g.Is("GCMD", RECURSE) {
-		t.Error("Default Abds has a GCMD tag when it should be empty")
+	if g.Len() != 0 {
+		t.Errorf("Abds set to object mode but reports as non-empty:%d", g.Len())
 	}
-	if g.Is("GCMD") {
-		t.Error("Default Abds has a GCMD tag when it should be empty")
-	}
-
-	if g.Len() > 0 {
-		t.Error("Default Abds has elements when it should be empty")
+	g.S("TAG", "VALUE")
+	if g.Len() != 1 {
+		t.Errorf("Abds set to object mode but reports as non-empty:%d", g.Len())
 	}
 
-	//Tag syntax with top level access
-	for _, git := range gtestvals {
-		g.S("TAG", git)
+	gchild := g.N("TAGCHILD").S("TAG1", "VALUE1").S("TAG2", "VALUE2")
+	if gchild.Len() != 2 {
+		t.Errorf("Abds child does not have 3 tags:%d", g.Len())
 	}
 
-	if g.Is("CMD", RECURSE) {
-		t.Error("Default Abds retrieves elements that should not exist")
+	if g.IsErr() {
+		t.Errorf("Abds detected errors:%d", g.Len())
 	}
+
+	//garray := g.AN()
+	//garray.AN()
 
 }
+
+//func (g *Abds) G(tag string, parms ...interface{}) *AbdsItem {
+
+//Convenience function to add
+//func (g *Abds) N(tag string, parms ...interface{}) *Abds {
+
+//func (g *Abds) Copy(src *Abds) error {

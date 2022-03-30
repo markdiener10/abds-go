@@ -1,17 +1,20 @@
 package abds
 
 import (
+	"strconv"
 	_ "strings"
 )
 
 type AbdsIter struct {
-	index uint
-	pItem *AbdsItem
+	index   uint
+	pItem   *AbdsItem
+	pErrors *AbdsErr
 }
 
 func (g *AbdsIter) Reset() {
 	g.index = 0
 	g.pItem = nil
+	g.pErrors = nil
 }
 
 func (g *AbdsIter) I() uint {
@@ -19,7 +22,7 @@ func (g *AbdsIter) I() uint {
 }
 
 func NewIter() *AbdsIter {
-	return &AbdsIter{index: 0, pItem: nil}
+	return &AbdsIter{index: 0, pItem: nil, pErrors: nil}
 }
 
 //Loop Iteration
@@ -30,7 +33,10 @@ func (g *Abds) Iter(piter *AbdsIter) bool {
 	if piter.index >= g.Len() {
 		return false
 	}
-	piter.pItem = g.Vals[piter.index]
+	if piter.index == 0 {
+		piter.pErrors = g.errs
+	}
+	piter.pItem = g.vals[piter.index]
 	piter.index++
 	return true
 }
@@ -39,18 +45,38 @@ func (g *AbdsIter) G() *AbdsItem {
 	return g.pItem
 }
 
-func (g *AbdsIter) S(val interface{}, parms ...interface{}) {
-	g.G().S(val, parms...)
+func (g *AbdsIter) S(val interface{}) {
+	g.G().S(val, g.pErrors)
 }
 
 // #############################################
+
+func (g *AbdsIter) Gtag() string {
+	if g.pItem == nil {
+		return ""
+	}
+	if g.pItem.tag == nil {
+		return ""
+	}
+
+	gv, ok := g.pItem.tag.(uint)
+	if ok {
+		return strconv.FormatUint(uint64(gv), 10)
+	}
+
+	gs, ok := g.pItem.tag.(string)
+	if ok {
+		return gs
+	}
+	return ""
+}
 
 func (g *AbdsIter) P() *AbdsItem {
 	return g.G()
 }
 
 func (g *AbdsIter) Pb() *bool {
-	return g.G().Pb()
+	return g.G().PB()
 }
 
 func (g *AbdsIter) Pi() *int {

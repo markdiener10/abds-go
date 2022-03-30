@@ -20,7 +20,7 @@ func init() {
 	gAbdsTranType = reflect.TypeOf((*AbdsTransform)(nil)).Elem()
 }
 
-func checkType(val interface{}) bool {
+func checkType(val interface{}, limit bool) bool {
 
 	switch val.(type) {
 	case *bool:
@@ -41,7 +41,7 @@ func checkType(val interface{}) bool {
 	case *string:
 	case *[]byte:
 	case *[]rune:
-	case Abds: 
+	case Abds:
 	case nil:
 	case bool:
 	case int:
@@ -63,6 +63,9 @@ func checkType(val interface{}) bool {
 	case []byte:
 	case []rune:
 	case *Abds: //We also only want to have Abds pointers, not stack allocations
+		if limit == true {
+			return false
+		}
 		break
 	default:
 
@@ -72,7 +75,11 @@ func checkType(val interface{}) bool {
 		}
 
 		//Only allow structure pointers that implement interface AbdsTransform
+		//Strange requirement that we have a variable store the type instead of the type itself
 		if !reflect.TypeOf(val).Implements(gAbdsTranType) {
+			return false
+		}
+		if limit == true {
 			return false
 		}
 	}

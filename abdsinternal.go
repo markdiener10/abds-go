@@ -1,16 +1,12 @@
 package abds
 
-import (
-	_ "fmt"
-)
-
 func (g *Abds) find(tag string, recurse bool) *AbdsItem {
 
 	var index int
 	var pItem *AbdsItem = nil
 
-	for index = 0; index < len(g.Vals); index++ {
-		pItem = g.Vals[index]
+	for index = 0; index < len(g.vals); index++ {
+		pItem = g.vals[index]
 		if pItem == nil {
 			continue
 		}
@@ -26,8 +22,8 @@ func (g *Abds) find(tag string, recurse bool) *AbdsItem {
 	var child *Abds
 	var ok bool
 
-	for index = 0; index < len(g.Vals); index++ {
-		pItem = g.Vals[index]
+	for index = 0; index < len(g.vals); index++ {
+		pItem = g.vals[index]
 		child, ok = pItem.val.(*Abds)
 		if !ok {
 			continue
@@ -59,8 +55,17 @@ func parmflag(flag uint64, parms ...interface{}) bool {
 }
 
 func parmflags(parms ...interface{}) (flags uint64) {
+
 	flags = 0
 	for _, parm := range parms {
+
+		gbool, ok := parm.(bool)
+		if ok {
+			if gbool {
+				flags |= ARRAY
+			}
+			continue
+		}
 		flag, ok := parm.(uint64)
 		if !ok {
 			continue
@@ -68,15 +73,16 @@ func parmflags(parms ...interface{}) (flags uint64) {
 		flags |= flag
 	}
 	return flags
+
 }
 
-func parmerr(err error, parms ...interface{}) {
+func parmerr(gerr error, parms ...*AbdsErr) {
+
 	for _, parm := range parms {
-		gerr, ok := parm.(*AbdsErr)
-		if !ok {
+		if parm == nil {
 			continue
 		}
-		gerr.Log(err)
-		break
+		parm.Log(gerr)
+		return
 	}
 }

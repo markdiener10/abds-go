@@ -15,7 +15,7 @@ func TestItemPtrOperations(t *testing.T) {
 
 		switch git.(type) {
 		case *bool:
-			gv := gitem.Pb()
+			gv := gitem.PB()
 			*gv = !*git.(*bool)
 			if gitem.Vb() != *gv {
 				t.Error("Ptr Bool not sticky")

@@ -4,9 +4,16 @@ import (
 	"fmt"
 )
 
-func (g *AbdsItem) S(val interface{}, parms ...interface{}) {
+func (g *AbdsItem) S(val interface{}, parms ...*AbdsErr) {
 
-	if !checkType(val) {
+	//Can occur when our abds.g().S() -> g() returns nil
+	//When you call G() on an array.-> nil item
+	if g == nil {
+		parmerr(fmt.Errorf("ABDS Nil Item passed"), parms...)
+		return
+	}
+
+	if !checkType(val,false) {
 		parmerr(fmt.Errorf("ABDS Tag:%s Invalid Type passed:%T", g.tag, val), parms...)
 		return
 	}
@@ -95,11 +102,11 @@ func (g *AbdsItem) S(val interface{}, parms ...interface{}) {
 	g.val = val
 }
 
-func (g *AbdsItem) SetAbds(val *Abds, parms ...interface{}) {
+func (g *AbdsItem) SetAbds(val *Abds, parms ...*AbdsErr) {
 	g.S(val, parms...)
 }
 
 //Provide a member function that will enforce at compile time the AbdsTransform interface
-func (g *AbdsItem) SetStru(val *AbdsTransform, parms ...interface{}) {
+func (g *AbdsItem) SetStru(val *AbdsTransform, parms ...*AbdsErr) {
 	g.S(val, parms...)
 }

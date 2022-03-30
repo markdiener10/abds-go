@@ -13,31 +13,28 @@ type TestErrorTransform struct {
 func TestErrorOperations(t *testing.T) {
 
 	g := New()
-	errs := NewErrs()
 
 	//Direct item access with errors added
 	gitem := g.G("TAG")
 	for _, git := range gtestvals {
-		gitem.S(git, errs)
+		gitem.S(git, g.errs)
 	}
 
-	if errs.Check() {
+	if g.IsErr() {
 		t.Error("Default Abds has elements when it should be empty")
 	}
 
-	errs.Reset()
-
-	if g.Is("CMD", errs) {
+	if g.Is("CMD") {
 		t.Error("Default Abds retrieves elements that should not exist")
 	}
 
 	//Top Level access with errors added
 	for _, git := range gtestvals {
-		g.S("TAG", git, errs)
+		g.S("TAG", git)
 	}
 
-	if errs.Check() {
-		t.Error("Default Abds has elements when it should be empty")
+	if g.IsErr() {
+		t.Error("Loading values triggered errors")
 	}
 
 }
@@ -45,19 +42,20 @@ func TestErrorOperations(t *testing.T) {
 func TestForcedError(t *testing.T) {
 
 	g := New()
-	errs := NewErrs()
-	gitem := g.G("TAG")
-
-	if errs.Check() {
-		t.Error("Default Abds has elements when it should be empty")
+	if g.IsErr() {
+		t.Error("Default Abds has errors when it should not")
 	}
 
 	//Initialize structure that does not comform to AbdsTransform interface
 	gtrans := &TestErrorTransform{what: "string"}
 
-	gitem.S(gtrans, errs)
-
-	if !errs.Check() {
+	g.S("TAG", gtrans)
+	if !g.IsErr() {
+		t.Error("Passing invalid structure should trigger error")
+	}
+	gitem := g.G("TAG")
+	gitem.S(gtrans, g.Errs())
+	if !g.IsErr() {
 		t.Error("Passing invalid structure to item put should trigger error")
 	}
 

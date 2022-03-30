@@ -15,7 +15,7 @@ func (g *AbdsItem) Clear() {
 	g.val = nil
 }
 
-//TAG values returns, Not Val
+//return Tag Values, Not Values themselves
 func (g *AbdsItem) Ti() uint {
 	if g.tag == nil {
 		return 0

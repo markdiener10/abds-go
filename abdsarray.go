@@ -12,62 +12,78 @@ func (g *Abds) IsArray() bool {
 	return true
 }
 
-func (g *Abds) Add(val interface{}, parms ...interface{}) *AbdsItem {
+//We cannot prevent major circular references (developer caution)
+func (g *Abds) Add(val interface{}) *AbdsItem {
 
-	if !checkType(val) {
-		parmerr(fmt.Errorf("ABDS Invalid Type passed for array add:%T", val), parms...)
+	if !checkType(val, true) {
+		parmerr(fmt.Errorf("ABDS Invalid Type passed for array add:%T", val), g.errs)
 		val = nil
 	}
+
 	pItem := &AbdsItem{tag: g.Len() + 1, val: nil}
-	pItem.S(val, parms...)
-	g.Vals = append(g.Vals, pItem)
+	pItem.S(val, g.errs)
+	g.vals = append(g.vals, pItem)
 	return pItem
 }
 
 //Convenience function to add *Abds to array
-func (g *Abds) ANew(parms ...interface{}) *Abds {
-	gabds := New(parms...)
+func (g *Abds) ANew() *Abds {
+	return g.AN()
+}
+
+func (g *Abds) AN() *Abds {
+	gabds := New(ARRAY)
+	gabds.errs = g.errs
+	gabds.flags |= CHILD
+	if g.errs == nil {
+		gabds.flags |= NOERR
+	}
 	pItem := &AbdsItem{tag: g.Len() + 1, val: gabds}
-	g.Vals = append(g.Vals, pItem)
+	g.vals = append(g.vals, pItem)
 	return gabds
 }
 
-func (g *Abds) Ainsert(idx uint, val interface{}, parms ...interface{}) *AbdsItem {
+func (g *Abds) AInsert(idx uint, val interface{}) *AbdsItem {
+	return g.AI(idx, val)
+}
+
+func (g *Abds) AIns(idx uint, val interface{}) *AbdsItem {
+	return g.AI(idx, val)
+}
+
+func (g *Abds) AI(idx uint, val interface{}) *AbdsItem {
 
 	if idx == 0 {
 		idx = 1
 	}
-
-	if !checkType(val) {
-		parmerr(fmt.Errorf("ABDS Invalid Type passed for array insert:%T", val), parms...)
+	if !checkType(val, true) {
+		parmerr(fmt.Errorf("ABDS Invalid Type passed for array insert:%T idx:%d", val, idx), g.errs)
 		val = nil
 	}
-
 	if g.Len() < idx {
-		return g.Add(val, parms...)
+		return g.Add(val)
 	}
-
 	pItemNew := &AbdsItem{tag: 0, val: nil}
 
 	var pSrc *AbdsItem
 	var pDst *AbdsItem
 
-	g.Vals = append(g.Vals, pItemNew)
+	g.vals = append(g.vals, pItemNew)
 
 	//Shift the values up
 	for slot := g.Len() - 2; slot >= idx-1; slot-- {
-		pSrc = g.Vals[slot]
-		pDst = g.Vals[slot+1]
+		pSrc = g.vals[slot]
+		pDst = g.vals[slot+1]
 		pSrc.val = pDst.val
 	}
 
 	//Relabel the trags
 	for slot := idx - 1; idx < g.Len(); slot++ {
-		pDst = g.Vals[slot]
+		pDst = g.vals[slot]
 		pDst.tag = slot + 1
 	}
-	pItemNew = g.Vals[idx-1]
-	pItemNew.S(val, parms...)
+	pItemNew = g.vals[idx-1]
+	pItemNew.S(val)
 	return pItemNew
 }
 
@@ -78,26 +94,27 @@ func (g *Abds) AG(idx uint) *AbdsItem {
 	if idx > g.Len() {
 		return nil
 	}
-	return g.Vals[idx-1]
+	return g.vals[idx-1]
 }
 
-func (g *Abds) AS(idx uint, val interface{}, parms ...interface{}) {
+func (g *Abds) AS(idx uint, val interface{}) {
 
-	if !checkType(val) {
-		parmerr(fmt.Errorf("ABDS Invalid Type passed for AS:%T", val), parms...)
+	if !checkType(val,true) {
+		g.adderr("ABDS Invalid Type passed for AS:%T : Idx.%d", val, idx)
 		val = nil
 	}
+
 	pItem := g.AG(idx)
 	if pItem == nil {
-		parmerr(fmt.Errorf("ABDS Item for index not found:%d", idx), parms...)
+		g.adderr("ABDS Item for index not found:%d", idx)
 	}
-	pItem.S(val, parms...)
+	pItem.S(val, g.errs)
 }
 
 // #############################################
 
 func (g *Abds) APb(idx uint) *bool {
-	return g.AG(idx).Pb()
+	return g.AG(idx).PB()
 }
 
 func (g *Abds) APi(idx uint) *int {
