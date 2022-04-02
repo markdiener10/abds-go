@@ -1,8 +1,8 @@
 # abds-go
 
-Agile binary data structure for Golang
+Agile binary data structure (ABDS) for Golang
 
-This library is the basis for a multi repo set of golang libraries to assist in interfacing to cloud services and some golang constructs.  It has its roots in JSON but concentrates on syntactical brevity and wider type support.  JSON was conceived for universal compatibility with many tradeoffs weaknesses.  ABDS adds developer comfort and interface simplicity while maintaining compatibility. ABDS should enable Schema-On-The-Fly.
+This library is the basis for a multi repo set of golang libraries to assist in interfacing to cloud services and some golang constructs.  It has its roots in JSON but concentrates on syntactical brevity and wider type support.  JSON was conceived for universal compatibility with many tradeoffs/weaknesses.  ABDS adds developer comfort and interface simplicity while maintaining compatibility. ABDS should enable Schema-On-The-Fly.
 
 ## usage
 
@@ -12,7 +12,7 @@ gabds := abds.New() //Create a new ABDS instance
 
 ### Operations
 
-- Create an abds instance
+- Create an abds instance 
 g := abds.New() //Create a new ABDS instance
 
 -Add data (S() function are to create and assign values to elements)
