@@ -13,33 +13,40 @@ import abds "github.com/markdiener10/abds-go"
 ### Operations
 
 - Create an abds instance  
-`g := abds.New() //Create a new ABDS instance`
+`g := abds.New()`
 
 - Add data (S() function are to create and assign values to elements)
 
-`g.S(1)  # Assign the first element to a value of 1 (int)`
-`g.S("TAGA",2)  # Set the second element to a value of 2 (int) and tag it with "TAGA"`
-`g.S("TAGB",3.1415)  # Set the third element to a value of pi (float64) and tag it with "TABG"`
-`g.S(1,3) # Set the first element value to 3`
+```
+g.S(1)  # Assign the first element to a value of 1 (int)
+g.S("TAGA",2)  # Set the second element to a value of 2 (int) and tag it with "TAGA"
+g.S("TAGB",3.1415)  # Set the third element to a value of pi (float64) and tag it with "TABG"
+g.S(1,3) # Set the first element value to 3
+```
 
 - Modify Values (Pxxx() functions are pointer functions)`
-`*g.Pu(1)++ # Increase the first element to 4`
-`*g.Pu64(1)++ # Change the first element to uint64 and increate the value to 5`
-`*g.Pu(2)++ # Increase the second element to 3`
+```
+*g.Pu(1)++ # Increase the first element to 4
+*g.Pu64(1)++ # Change the first element to uint64 and increate the value to 5
+*g.Pu(2)++ # Increase the second element to 3
 
-`*g.Pf32("FLOAT") += 5 #Create a tagged float32 element and increase its value from 0 to 5`
-
+*g.Pf32("FLOAT") += 5 #Create a tagged float32 element and increase its value from 0 to 5
+```
 - Get formatted values (Does not change internal type)
 
-`g.Vi32(2) # Retrieve the value of the second element as a int32 value`
-`g.Vf64(2) # Retrieve the value of the second element as a float64 value`
-`g.Vc128(2) # Retrieve the value of the second element as a complex128 value`
-`g.Vs(2) # Retrieve the value of the second element as a string value`
+```
+g.Vi32(2) # Retrieve the value of the second element as a int32 value
+g.Vf64(2) # Retrieve the value of the second element as a float64 value
+g.Vc128(2) # Retrieve the value of the second element as a complex128 value
+g.Vs(2) # Retrieve the value of the second element as a string value
+```
 
 - Create a new ABDS child 
-`gch = g.Nchild("CHILDTAG")`
-`gch.S(10)`
-`gch.S("TAG",35)`
+```
+gch = g.Nchild("CHILDTAG")
+gch.S(10)
+gch.S("TAG",35)
+```
 
 - Iterate over values in the abds object
 `it = g.NewIter()`
