@@ -12,7 +12,7 @@ gabds := abds.New() //Create a new ABDS instance
 
 ### Operations
 
-- Create an abds instance 
+- Create an abds instance  
 g := abds.New() //Create a new ABDS instance
 
 -Add data (S() function are to create and assign values to elements)
