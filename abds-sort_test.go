@@ -6,19 +6,20 @@ import (
 
 func TestTopLevelSort(t *testing.T) {
 
-	g := New(ARRAY)
+	g := New()
 	for idx := 0; idx < 10; idx++ {
-		g.Add(idx + 1)
+		g.S(idx + 1)
 	}
 
-	g.Sort(func(pa *AbdsItem, pb *AbdsItem) bool {
+	g.Sort(func(pa *AbdsIter, pb *AbdsIter) bool {
 		return pa.Vu() < pb.Vu()
 	})
 
-	it := NewIter()
+	it := g.NewIter()
 	for g.Iter(it) {
 		if it.I() != uint(11-it.Vu()) {
 			t.Errorf("Sort Not Working:%d:%d", it.I(), it.Vu())
 		}
 	}
+
 }

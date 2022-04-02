@@ -8,7 +8,13 @@ import (
 //Test an externally define structure so we can integrate
 //project specific structures into the abds framework
 
-var gtestvals []interface{}
+var gatb []interface{}
+var gats []interface{}
+var gate []interface{} //Error cases
+
+type TestNotTransform struct {
+	what string
+}
 
 type TestTransform struct {
 	what string
@@ -30,136 +36,192 @@ func (g *TestTransform) UnPack(input *Abds) error {
 
 func init() {
 
-	gtestvals = []interface{}{
-		nil,                    //0
-		true,                   //1
-		false,                  //2
-		int(11),                //3
-		int8(12),               //4
-		int16(13),              //5
-		int32(14),              //6
-		int64(15),              //7
-		uint(21),               //8
-		uint8(22),              //9
-		uint16(23),             //10
-		uint32(24),             //11
-		uint64(25),             //12
-		float32(30.02),         //13
-		float64(31.03),         //14
-		complex(41, -43),       //15
-		complex(42, -44),       //16
-		[]byte{51, 52, 53, 54}, //17
-		"string",               //18
-		nil,                    //19 Ptr Bool true
-		nil,                    //20 Ptr Bool false
-		nil,                    //21 Ptr int
-		nil,                    //22 Ptr int8
-		nil,                    //23 Ptr int16
-		nil,                    //24 Ptr int32
-		nil,                    //25 Ptr int64
-		nil,                    //26 Ptr uint
-		nil,                    //27 Ptr uint8
-		nil,                    //28 Ptr uint16
-		nil,                    //29 Ptr uint32
-		nil,                    //30 Ptr uint64
-		nil,                    //31 Ptr float32
-		nil,                    //32 Ptr float64
-		nil,                    //33 Ptr complex64
-		nil,                    //34 Ptr complex128
-		nil,                    //35 Ptr []byte
-		nil,                    //36 Ptr string
-		nil,                    //37 Ptr Abds
-		nil,                    //38 Ptr AbdsTransform
+	var gv interface{} = nil
+
+	gatb = make([]interface{}, 0)
+	gats = make([]interface{}, 0)
+	gate = make([]interface{}, 0)
+
+	gatb = append(gatb, nil)
+	gatb = append(gatb, true)
+	gatb = append(gatb, false)
+	gatb = append(gatb, int(11))
+	gatb = append(gatb, int8(12))
+	gatb = append(gatb, int16(13))
+	gatb = append(gatb, int32(14))
+	gatb = append(gatb, int64(15))
+	gatb = append(gatb, uint(21))
+	gatb = append(gatb, uint8(22))
+	gatb = append(gatb, uint16(23))
+	gatb = append(gatb, uint32(24))
+	gatb = append(gatb, uint64(25))
+	gatb = append(gatb, float32(30.02))
+	gatb = append(gatb, float64(31.03))
+	gatb = append(gatb, complex(41, -42))
+	gatb = append(gatb, complex(43, -44))
+	gatb = append(gatb, "stringtest")
+
+	gv = true
+	gatb = append(gatb, &gv)
+	gv = false
+	gatb = append(gatb, &gv)
+	gv = int(60)
+	gatb = append(gatb, &gv)
+	gv = int8(61)
+	gatb = append(gatb, &gv)
+	gv = int16(62)
+	gatb = append(gatb, &gv)
+	gv = int32(63)
+	gatb = append(gatb, &gv)
+	gv = int64(64)
+	gatb = append(gatb, &gv)
+	gv = uint(70)
+	gatb = append(gatb, &gv)
+	gv = uint8(71)
+	gatb = append(gatb, &gv)
+	gv = uint16(72)
+	gatb = append(gatb, &gv)
+	gv = uint32(73)
+	gatb = append(gatb, &gv)
+	gv = uint64(74)
+	gatb = append(gatb, &gv)
+	gv = float32(80.1)
+	gatb = append(gatb, &gv)
+	gv = float64(81.1)
+	gatb = append(gatb, &gv)
+	gv = complex64(complex(90, 91))
+	gatb = append(gatb, &gv)
+	gv = complex128(complex(100, 101))
+	gatb = append(gatb, &gv)
+	gv = "stringptr"
+	gatb = append(gatb, &gv)
+	gv = []byte{111, 112, 113, 114}
+	gatb = append(gatb, &gv)
+	gv = []float32{300.1, 300.2, 300.3, 300.4}
+	gatb = append(gatb, &gv)
+	gv = map[uint]int{
+		400: 401,
+		402: 403,
+		404: 405,
+		406: 407,
 	}
+	gatb = append(gatb, &gv)
 
-	//Load up the pointers to values
-	gtrue := true
-	gtestvals[19] = &gtrue
+	//Structural test cases
+	gats = append(gats, New())
+	gats = append(gats, &TestTransform{what: "transform"})
+	gats = append(gats, &TestNotTransform{what: "nottransform"})
 
-	gfalse := false
-	gtestvals[20] = &gfalse
-
-	gint := int(60)
-	gtestvals[21] = &gint
-
-	gint8 := int8(61)
-	gtestvals[22] = &gint8
-
-	gint16 := int16(62)
-	gtestvals[23] = &gint16
-
-	gint32 := int32(63)
-	gtestvals[24] = &gint32
-
-	gint64 := int64(64)
-	gtestvals[25] = &gint64
-
-	guint := uint(70)
-	gtestvals[26] = &guint
-
-	guint8 := uint8(71)
-	gtestvals[27] = &guint8
-
-	guint16 := uint16(72)
-	gtestvals[28] = &guint16
-
-	guint32 := uint32(73)
-	gtestvals[29] = &guint32
-
-	guint64 := uint64(74)
-	gtestvals[30] = &guint64
-
-	gfloat32 := float32(80.1)
-	gtestvals[31] = &gfloat32
-
-	gfloat64 := float64(81.1)
-	gtestvals[32] = &gfloat64
-
-	gcomplex64 := complex64(complex(90, 91))
-	gtestvals[33] = &gcomplex64
-
-	gcomplex128 := complex128(complex(100, 101))
-	gtestvals[34] = &gcomplex128
-
-	gbyteptr := &[]byte{111, 112, 113, 114}
-	gtestvals[35] = gbyteptr
-
-	gstring := "stringptr"
-	gtestvals[36] = &gstring
-
-	gabds := New()
-	gtestvals[37] = gabds
-
-	gtrans := TestTransform{what: "string"}
-	gtestvals[38] = &gtrans
+	//Several illegal entries
+	gate = append(gate, Abds{})
+	gate = append(gate, TestTransform{what: "transform"})
+	gate = append(gate, TestNotTransform{what: "nottransform"})
+	gate = append(gate, []byte{111, 112, 113, 114})
+	gate = append(gate, []float32{300.1, 300.2, 300.3, 300.4})
+	gate = append(gate, map[uint]int{
+		400: 401,
+		402: 403,
+		404: 405,
+		406: 407,
+	})
 
 }
 
 func TestItemOperations(t *testing.T) {
 
+	var err error
+	var idx int
+
+	_ = idx
+
 	g := New()
+	gitem := g.g("TAG")
+	var gtest interface{}
+	for idx, gtest = range gatb {
+		err = gitem.S(gtest)
+		if err != nil {
+			g.Log(err)
+		}
+	}
 
-	gitem := g.G("TAG")
-	for _, git := range gtestvals {
+	if g.IsErr() {
+		t.Error("Test Item Operations errors A")
+	}
 
-		gitem.S(git)
-		gitem.V()
-		gitem.Vi()
-		/*
-			gitem.Vi8()
-			gitem.Vi16()
-			gitem.Vi32()
-			gitem.Vi64()
-			gitem.Vu()
-			gitem.Vu8()
-			gitem.Vu16()
-			gitem.Vu32()
-			gitem.Vu64()
-			gitem.Vs()
-		*/
+	g.ErrorClear()
+
+	for idx, gtest = range gats {
+		err = gitem.S(gtest)
+		if err != nil {
+			g.Log(err)
+		}
 
 	}
 
-	//gitem.
+	if g.IsErr() {
+		t.Error("Test Item Operations errors B")
+	}
+
+	g.ErrorClear()
+	for idx, gtest = range gate {
+		err = gitem.S(gtest)
+		if err != nil {
+			g.Log(err)
+		}
+		if !g.IsErr() {
+			t.Error("Test Item Operations should have errors C")
+		}
+		g.ErrorClear()
+	}
+
+}
+
+func TestTopLevelArrayOperations(t *testing.T) {
+
+	//Array operations
+	g := New()
+	if g.Len() != 0 {
+		t.Errorf("Abds set to array mode but reports as non-empty:%d", g.Len())
+	}
+	var idx uint
+	for idx = 1; idx <= 10; idx++ {
+		g.S(idx)
+	}
+	if g.Len() != 10 {
+		t.Errorf("Abds set to array mode but fails to add 10 items:%d", g.Len())
+	}
+	for idx = 1; idx <= 10; idx++ {
+		if g.Vu(idx) != idx {
+			t.Errorf("Abds set to array mode but reports as incorrect value:%d : %d", g.Vu(idx), idx)
+		}
+	}
+
+	g = New()
+	for idx = 1; idx <= 10; idx++ {
+		g.S(idx, idx)
+	}
+	if g.Len() != 10 {
+		t.Errorf("Abds set to array mode but fails to add 10 items:%d", g.Len())
+	}
+	for idx = 1; idx <= 10; idx++ {
+		if g.Vu(idx) != idx {
+			t.Errorf("Abds set to array mode but reports as incorrect value:%d : %d", g.Vu(idx), idx)
+		}
+	}
+
+}
+
+func TestTopLevelUninitialized(t *testing.T) {
+
+	g := New()
+	*g.Pu(1) += 2
+	*g.Pu("TAG")++
+
+	if g.Vu(1) != 2 {
+		t.Errorf("Abds uinitialized array access not correct (2):%d", g.Vu(1))
+	}
+	if g.Vu("TAG") != 1 {
+		t.Errorf("Abds uinitialized tag access not correct (1):%d", g.Vu("TAG"))
+	}
 
 }

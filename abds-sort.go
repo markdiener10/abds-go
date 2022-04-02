@@ -1,6 +1,6 @@
 package abds
 
-type AbdsSortFunc func(p1 *AbdsItem, p2 *AbdsItem) bool
+type AbdsSortFunc func(p1 *AbdsIter, p2 *AbdsIter) bool
 
 //Sorting functions (Depending on Size O(n))
 func (g *Abds) Sort(fn AbdsSortFunc) {
@@ -9,19 +9,25 @@ func (g *Abds) Sort(fn AbdsSortFunc) {
 		return
 	}
 	var swapped bool
-	var pitema *AbdsItem
-	var pitemb *AbdsItem
+	var itera AbdsIter
+	var iterb AbdsIter
+
+	itera.pAbds = g
+	iterb.pAbds = g
+
+	itera.reset()
+	itera.reset()
 
 	n := len(g.vals)
 
 	for i := 0; i < n-1; i++ {
 		swapped = false
 		for j := 0; j < n-i-1; j++ {
-			pitema = g.vals[j]
-			pitemb = g.vals[j+1]
-			if fn(pitema, pitemb) == true {
-				g.vals[j] = pitemb
-				g.vals[j+1] = pitema
+			itera.pItem = g.vals[j]
+			iterb.pItem = g.vals[j+1]
+			if fn(&itera, &iterb) == true {
+				g.vals[j] = iterb.pItem
+				g.vals[j+1] = itera.pItem
 				swapped = true
 			}
 		}

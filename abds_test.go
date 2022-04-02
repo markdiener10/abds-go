@@ -7,9 +7,6 @@ import (
 func TestTopLevelObjectOperations(t *testing.T) {
 
 	g := New()
-	if g.IsArray() {
-		t.Error("Abds set to object mode but reports as array mode")
-	}
 	if g.Len() != 0 {
 		t.Errorf("Abds set to object mode but reports as non-empty:%d", g.Len())
 	}
@@ -18,7 +15,7 @@ func TestTopLevelObjectOperations(t *testing.T) {
 		t.Errorf("Abds set to object mode but reports as non-empty:%d", g.Len())
 	}
 
-	gchild := g.N("TAGCHILD").S("TAG1", "VALUE1").S("TAG2", "VALUE2")
+	gchild := g.Nch("TAGCHILD").S("TAG1", "VALUE1").S("TAG2", "VALUE2")
 	if gchild.Len() != 2 {
 		t.Errorf("Abds child does not have 3 tags:%d", g.Len())
 	}
@@ -26,6 +23,12 @@ func TestTopLevelObjectOperations(t *testing.T) {
 	if g.IsErr() {
 		t.Errorf("Abds detected errors:%d", g.Len())
 	}
+
+	//Need to test array
+
+	//Need to test child (abds)
+
+	//Need to test transform
 
 	//garray := g.AN()
 	//garray.AN()

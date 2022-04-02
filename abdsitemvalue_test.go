@@ -7,24 +7,23 @@ import (
 func TestItemValueOperations(t *testing.T) {
 
 	g := New()
+	gitem := g.g("TAG")
 
-	gitem := g.G("TAG")
-	for _, git := range gtestvals {
+	for _, git := range gatb {
 		gitem.S(git)
-		gitem.V()
-		gitem.Vi()
-		gitem.Vi8()
-		gitem.Vi16()
-		gitem.Vi32()
-		gitem.Vi64()
-		gitem.Vu()
-		gitem.Vu8()
-		gitem.Vu16()
-		gitem.Vu32()
-		gitem.Vu64()
-		gitem.Vs()
-		gitem.Vc64()
-		gitem.Vc128()
+		gitem.vi()
+		gitem.vi8()
+		gitem.vi16()
+		gitem.vi32()
+		gitem.vi64()
+		gitem.vu()
+		gitem.vu8()
+		gitem.vu16()
+		gitem.vu32()
+		gitem.vu64()
+		gitem.vs()
+		gitem.vc64()
+		gitem.vc128()
 	}
 
 }

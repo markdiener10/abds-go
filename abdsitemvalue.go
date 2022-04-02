@@ -5,15 +5,7 @@ import (
 	"strconv"
 )
 
-func (g *AbdsItem) V() interface{} {
-	return g.val
-}
-
-func (g *AbdsItem) Vnull() interface{} {
-	return nil
-}
-
-func (g *AbdsItem) Vb() bool {
+func (g *AbdsItem) vB() bool {
 
 	var val uint64 = 0
 
@@ -71,7 +63,7 @@ func (g *AbdsItem) Vb() bool {
 	return true
 }
 
-func (g *AbdsItem) Vi() int {
+func (g *AbdsItem) vi() int {
 
 	switch g.val.(type) {
 	case *bool:
@@ -125,7 +117,7 @@ func (g *AbdsItem) Vi() int {
 	return 0
 }
 
-func (g *AbdsItem) Vi8() int8 {
+func (g *AbdsItem) vi8() int8 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -179,7 +171,7 @@ func (g *AbdsItem) Vi8() int8 {
 	return 0
 }
 
-func (g *AbdsItem) Vi16() int16 {
+func (g *AbdsItem) vi16() int16 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -233,7 +225,7 @@ func (g *AbdsItem) Vi16() int16 {
 	return 0
 }
 
-func (g *AbdsItem) Vi32() int32 {
+func (g *AbdsItem) vi32() int32 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -287,7 +279,7 @@ func (g *AbdsItem) Vi32() int32 {
 	return 0
 }
 
-func (g *AbdsItem) Vi64() int64 {
+func (g *AbdsItem) vi64() int64 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -341,7 +333,7 @@ func (g *AbdsItem) Vi64() int64 {
 	return 0
 }
 
-func (g *AbdsItem) Vu() uint {
+func (g *AbdsItem) vu() uint {
 
 	switch g.val.(type) {
 	case *bool:
@@ -395,7 +387,7 @@ func (g *AbdsItem) Vu() uint {
 	return 0
 }
 
-func (g *AbdsItem) Vu8() uint8 {
+func (g *AbdsItem) vu8() uint8 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -449,7 +441,7 @@ func (g *AbdsItem) Vu8() uint8 {
 	return 0
 }
 
-func (g *AbdsItem) Vu16() uint16 {
+func (g *AbdsItem) vu16() uint16 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -503,7 +495,7 @@ func (g *AbdsItem) Vu16() uint16 {
 	return 0
 }
 
-func (g *AbdsItem) Vu32() uint32 {
+func (g *AbdsItem) vu32() uint32 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -557,7 +549,7 @@ func (g *AbdsItem) Vu32() uint32 {
 	return 0
 }
 
-func (g *AbdsItem) Vu64() uint64 {
+func (g *AbdsItem) vu64() uint64 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -611,7 +603,7 @@ func (g *AbdsItem) Vu64() uint64 {
 	return 0
 }
 
-func (g *AbdsItem) Vf32() float32 {
+func (g *AbdsItem) vf32() float32 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -665,7 +657,7 @@ func (g *AbdsItem) Vf32() float32 {
 	return 0.0
 }
 
-func (g *AbdsItem) Vf64() float64 {
+func (g *AbdsItem) vf64() float64 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -719,7 +711,7 @@ func (g *AbdsItem) Vf64() float64 {
 	return 0.0
 }
 
-func (g *AbdsItem) Vc64() complex64 {
+func (g *AbdsItem) vc64() complex64 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -773,7 +765,7 @@ func (g *AbdsItem) Vc64() complex64 {
 	return complex(0, 0)
 }
 
-func (g *AbdsItem) Vc128() complex128 {
+func (g *AbdsItem) vc128() complex128 {
 
 	switch g.val.(type) {
 	case *bool:
@@ -827,7 +819,7 @@ func (g *AbdsItem) Vc128() complex128 {
 	return complex(0, 0)
 }
 
-func (g *AbdsItem) Vs() string {
+func (g *AbdsItem) vs() string {
 
 	switch g.val.(type) {
 	case nil:
@@ -875,106 +867,3 @@ func (g *AbdsItem) Vs() string {
 	return ""
 }
 
-func (g *AbdsItem) Vbyte() []byte {
-
-	var val uint64 = 0
-
-	switch g.val.(type) {
-	case *[]byte:
-		return []byte(*g.val.(*[]byte))
-	case *bool:
-		if *g.val.(*bool) == true {
-			val = 1
-		} else {
-			val = 0
-		}
-	case *int:
-		val = uint64(*g.val.(*int))
-	case *int8:
-		val = uint64(*g.val.(*int8))
-	case *int16:
-		val = uint64(*g.val.(*int16))
-	case *int32:
-		val = uint64(*g.val.(*int32))
-	case *int64:
-		val = uint64(*g.val.(*int64))
-	case *uint:
-		val = uint64(*g.val.(*uint))
-	case *uint8:
-		val = uint64(*g.val.(*uint8))
-	case *uint16:
-		val = uint64(*g.val.(*uint16))
-	case *uint32:
-		val = uint64(*g.val.(*uint32))
-	case *uint64:
-		val = uint64(*g.val.(*uint64))
-	case *float32:
-		val = uint64(*g.val.(*float32))
-	case *float64:
-		val = uint64(*g.val.(*float64))
-	case *complex64:
-		val = uint64(cmplx.Abs(complex128(*g.val.(*complex64))))
-	case *complex128:
-		val = uint64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		val = uint64(*g.val.(*uintptr))
-	case *string:
-		return []byte(string(*g.val.(*string)))
-	default:
-		return make([]byte, 0)
-	}
-	gi := make([]byte, 0)
-	gi = append(gi, uint8(val))
-	return gi
-}
-
-func (g *AbdsItem) Vrune() []rune {
-
-	var val uint64 = 0
-
-	switch g.val.(type) {
-	case *[]rune:
-		return []rune(*g.val.(*[]rune))
-	case *bool:
-		if *g.val.(*bool) == true {
-			val = 1
-		} else {
-			val = 0
-		}
-	case *int:
-		val = uint64(*g.val.(*int))
-	case *int8:
-		val = uint64(*g.val.(*int8))
-	case *int16:
-		val = uint64(*g.val.(*int16))
-	case *int32:
-		val = uint64(*g.val.(*int32))
-	case *int64:
-		val = uint64(*g.val.(*int64))
-	case *uint:
-		val = uint64(*g.val.(*uint))
-	case *uint8:
-		val = uint64(*g.val.(*uint8))
-	case *uint16:
-		val = uint64(*g.val.(*uint16))
-	case *uint32:
-		val = uint64(*g.val.(*uint32))
-	case *uint64:
-		val = uint64(*g.val.(*uint64))
-	case *float32:
-		val = uint64(*g.val.(*float32))
-	case *float64:
-		val = uint64(*g.val.(*float64))
-	case *complex64:
-		val = uint64(cmplx.Abs(complex128(*g.val.(*complex64))))
-	case *complex128:
-		val = uint64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		val = uint64(*g.val.(*uintptr))
-	default:
-		return make([]rune, 0)
-	}
-	gi := make([]rune, 0)
-	gi = append(gi, rune(val))
-	return gi
-}
