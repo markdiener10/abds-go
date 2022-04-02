@@ -16,76 +16,73 @@ import abds "github.com/markdiener10/abds-go"
 `g := abds.New()`
 
 - Add data (S() function are to create and assign values to elements)
-
 ```
 g.S(1)  # Assign the first element to a value of 1 (int)
 g.S("TAGA",2)  # Set the second element to a value of 2 (int) and tag it with "TAGA"
 g.S("TAGB",3.1415)  # Set the third element to a value of pi (float64) and tag it with "TABG"
 g.S(1,3) # Set the first element value to 3
 ```
-
 - Modify Values (Pxxx() functions are pointer functions)`
 ```
 *g.Pu(1)++ # Increase the first element to 4
 *g.Pu64(1)++ # Change the first element to uint64 and increate the value to 5
 *g.Pu(2)++ # Increase the second element to 3
-
 *g.Pf32("FLOAT") += 5 #Create a tagged float32 element and increase its value from 0 to 5
 ```
 - Get formatted values (Does not change internal type)
-
 ```
 g.Vi32(2) # Retrieve the value of the second element as a int32 value
 g.Vf64(2) # Retrieve the value of the second element as a float64 value
 g.Vc128(2) # Retrieve the value of the second element as a complex128 value
 g.Vs(2) # Retrieve the value of the second element as a string value
 ```
-
 - Create a new ABDS child 
 ```
 gch = g.Nchild("CHILDTAG")
 gch.S(10)
 gch.S("TAG",35)
 ```
-
 - Iterate over values in the abds object
-`it = g.NewIter()`
-`for g.Iter(it) {`
-`  it.Vs() # Get the value of the element as a string value`
-`  *it.Pi()+=10 # Modify the element by increasing it by 10`
-`  it.S(20) # Set the value of the element to 20 (int)`
-`  it.S(uint(20)) # Set the value of the element to 20 (uint)`
-`
-`  if it.IsTag() {`
-`    //Do something if the element is a tagged element`
-`  }`
-`  if it.I() > 3 {`
-`    //Do something if the element index > 3`
-`  }`
-``
-`  it.Delete() # Delete the element from the abds instance`
-`}`
+```
+it = g.NewIter()
+for g.Iter(it) {
+  it.Vs() # Get the value of the element as a string value
+  *it.Pi()+=10 # Modify the element by increasing it by 10
+  it.S(20) # Set the value of the element to 20 (int)
+  it.S(uint(20)) # Set the value of the element to 20 (uint)
+
+  if it.IsTag() {
+    //Do something if the element is a tagged element
+  }
+  if it.I() > 3 {
+    //Do something if the element index > 3
+  }
+
+  it.Delete() # Delete the element from the abds instance
+}
+```
 
 You can use lambda/closures to scan over an ABDS instance.  Look at
 abds-scan_test.go for examples on the syntax
 
 You can pass custom structs, maps, arrays by address but not by value (cut down on allocations)
-
+```
 g.S(&mystruct)
 g.S(&mymap)
 g.S(&myarray)
-
+```
 Any struct that comforms to the AbdsTransform interface will have additional streaming support from another library
 
---Errors
+- Errors
 
 Errors in ABDS operations do not need to be constantly checked in code. The library implements
 an internal error capture framework so you opt-in on checking for errors at any point in the code.  
-
+```
 g.ClearErrors() # Clear the error capture
 g.IsErr() # Check for any errors since the last error clearing
 g.Errs() # Get all detected errors since the last error clearing.  AbdsErr returned but capture not cleared
 g.Errs(true) # Get all detected errors since the last error clearing.  AbdsErr returned and capture cleared
+```
 
 ## Developer notes  (Mark Diener/TekDevo LLC)
 
