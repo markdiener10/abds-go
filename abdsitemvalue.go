@@ -42,8 +42,6 @@ func (g *AbdsItem) vB() bool {
 		val = uint64(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		val = uint64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		val = uint64(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseUint(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -99,8 +97,6 @@ func (g *AbdsItem) vi() int {
 		return int(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return int(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return int(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -153,8 +149,6 @@ func (g *AbdsItem) vi8() int8 {
 		return int8(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return int8(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return int8(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -207,8 +201,6 @@ func (g *AbdsItem) vi16() int16 {
 		return int16(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return int16(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return int16(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -261,8 +253,6 @@ func (g *AbdsItem) vi32() int32 {
 		return int32(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return int32(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return int32(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -315,8 +305,6 @@ func (g *AbdsItem) vi64() int64 {
 		return int64(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return int64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return int64(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -369,8 +357,6 @@ func (g *AbdsItem) vu() uint {
 		return uint(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return uint(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return uint(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -423,8 +409,6 @@ func (g *AbdsItem) vu8() uint8 {
 		return uint8(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return uint8(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return uint8(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -477,8 +461,6 @@ func (g *AbdsItem) vu16() uint16 {
 		return uint16(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return uint16(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return uint16(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -531,8 +513,6 @@ func (g *AbdsItem) vu32() uint32 {
 		return uint32(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return uint32(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return uint32(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -585,8 +565,6 @@ func (g *AbdsItem) vu64() uint64 {
 		return uint64(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return uint64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return uint64(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -639,8 +617,6 @@ func (g *AbdsItem) vf32() float32 {
 		return float32(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return float32(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return float32(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -693,8 +669,6 @@ func (g *AbdsItem) vf64() float64 {
 		return float64(cmplx.Abs(complex128(*g.val.(*complex64))))
 	case *complex128:
 		return float64(cmplx.Abs(complex128(*g.val.(*complex128))))
-	case *uintptr:
-		return float64(*g.val.(*uintptr))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -747,8 +721,6 @@ func (g *AbdsItem) vc64() complex64 {
 		return complex64(*g.val.(*complex64))
 	case *complex128:
 		return complex64(*g.val.(*complex128))
-	case *uintptr:
-		return complex64(complex(float64(*g.val.(*uintptr)), 0))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -801,8 +773,6 @@ func (g *AbdsItem) vc128() complex128 {
 		return complex128(*g.val.(*complex64))
 	case *complex128:
 		return complex128(*g.val.(*complex128))
-	case *uintptr:
-		return complex128(complex(float64(*g.val.(*uintptr)), 0))
 	case *[]byte:
 		gi, err := strconv.ParseInt(string(*g.val.(*[]byte)), 10, 64)
 		if err != nil {
@@ -857,8 +827,6 @@ func (g *AbdsItem) vs() string {
 		return strconv.FormatComplex(complex128(*g.val.(*complex64)), 'f', -1, 64)
 	case *complex128:
 		return strconv.FormatComplex(complex128(*g.val.(*complex128)), 'f', -1, 128)
-	case *uintptr:
-		return strconv.FormatUint(uint64(*g.val.(*uintptr)), 10)
 	case *[]byte:
 		return string(*g.val.(*[]byte))
 	case *string:

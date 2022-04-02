@@ -42,7 +42,7 @@ gch = g.Nchild("CHILDTAG")
 gch.S(10)
 gch.S("TAG",35)
 ```
-- Iterate over values in the abds object
+- Iterate over values in the ABDS instance
 ```
 it = g.NewIter()
 for g.Iter(it) {
