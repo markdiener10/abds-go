@@ -291,5 +291,6 @@ func (g *AbdsIter) Vc128() complex128 {
 }
 
 func (g *AbdsIter) Vs() string {
+	//Comment
 	return g.g().vs()
 }
