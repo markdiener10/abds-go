@@ -113,6 +113,20 @@ func (g *AbdsIter) Tag() string {
 	return g.pAbds.GetTag(g.pItem.tag)
 }
 
+func (g *AbdsIter) Tagi() uint {
+
+	if g == nil {
+		return 0
+	}
+	if g.pAbds == nil {
+		return 0
+	}
+	if g.pItem == nil {
+		return 0
+	}
+	return g.pItem.ta
+}
+
 //Access and control
 // ####################################
 
@@ -211,6 +225,10 @@ func (g *AbdsIter) Praw() interface{} {
 }
 
 // #############################################
+
+func (g *AbdsIter) V() interface{} {
+	return g.g().v()
+}
 
 func (g *AbdsIter) Vb() bool {
 	return g.g().vB()

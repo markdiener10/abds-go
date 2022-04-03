@@ -6,7 +6,6 @@ SHELL := /usr/bin/env bash
 
 clean:
 	go clean -testcache -cache -modcache
-	go mod tidy	
 	@echo "Project CLEANED ##############"
 
 test: 

@@ -5,12 +5,17 @@ import (
 )
 
 //Agile binary data structure
+const VERSION = 2
 
 type Abds struct {
 	root bool
 	tags *AbdsTags
 	vals []*AbdsItem
 	link interface{} //*Abds or *Abdserrors
+}
+
+func (g *Abds) Version() uint {
+	return VERSION
 }
 
 func (g *Abds) Len() uint {
