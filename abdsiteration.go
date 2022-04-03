@@ -224,6 +224,10 @@ func (g *AbdsIter) Praw() interface{} {
 	return g.g().v()
 }
 
+func (g *AbdsIter) Pitem() *AbdsItem {
+	return g.pItem
+}
+
 // #############################################
 
 func (g *AbdsIter) V() interface{} {

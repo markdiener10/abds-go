@@ -80,6 +80,7 @@ func (g *Abds) Pch(parm interface{}) *Abds {
 	return g.g(parm).pabds()
 }
 
+//Map, Struct, Array
 func (g *Abds) Praw(parm interface{}) interface{} {
 	return g.g(parm).v()
 }
