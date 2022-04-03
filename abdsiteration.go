@@ -124,7 +124,7 @@ func (g *AbdsIter) Tagi() uint {
 	if g.pItem == nil {
 		return 0
 	}
-	return g.pItem.ta
+	return g.pItem.tag
 }
 
 //Access and control
