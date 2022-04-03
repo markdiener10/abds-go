@@ -82,5 +82,5 @@ func (g *Abds) Pch(parm interface{}) *Abds {
 
 //Map, Struct, Array
 func (g *Abds) Praw(parm interface{}) interface{} {
-	return g.g(parm).v()
+	return g.g(parm).V()
 }

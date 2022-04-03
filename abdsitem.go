@@ -15,10 +15,10 @@ func (g *AbdsItem) Clear() {
 	g.val = nil
 }
 
-func (g *AbdsItem) ti() uint {
+func (g *AbdsItem) Ti() uint {
 	return g.tag
 }
 
-func (g *AbdsItem) v() interface{} {
+func (g *AbdsItem) V() interface{} {
 	return g.val
 }

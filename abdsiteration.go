@@ -221,7 +221,7 @@ func (g *AbdsIter) Pch() *Abds {
 }
 
 func (g *AbdsIter) Praw() interface{} {
-	return g.g().v()
+	return g.g().V()
 }
 
 func (g *AbdsIter) Pitem() *AbdsItem {
@@ -231,7 +231,7 @@ func (g *AbdsIter) Pitem() *AbdsItem {
 // #############################################
 
 func (g *AbdsIter) V() interface{} {
-	return g.g().v()
+	return g.g().V()
 }
 
 func (g *AbdsIter) Vb() bool {
