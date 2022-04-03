@@ -84,13 +84,13 @@ func (g *AbdsIter) IsTag() bool {
 	if g == nil {
 		return false
 	}
+	if g.pAbds == nil {
+		return false
+	}
 	if g.pItem == nil {
 		return false
 	}
 	if g.pItem.tag == 0 {
-		return false
-	}
-	if g.pAbds == nil {
 		return false
 	}
 	return true
