@@ -206,11 +206,3 @@ func (g *AbdsItem) pch() *Abds {
 	}
 	return nil
 }
-
-func (g *AbdsItem) ptran() *AbdsTransform {
-	switch g.val.(type) {
-	case *AbdsTransform:
-		return g.val.(*AbdsTransform)
-	}
-	return nil
-}

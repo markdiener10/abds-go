@@ -1,7 +1,6 @@
 package abds
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -11,28 +10,6 @@ import (
 var gatb []interface{}
 var gats []interface{}
 var gate []interface{} //Error cases
-
-type TestNotTransform struct {
-	what string
-}
-
-type TestTransform struct {
-	what string
-}
-
-func (g *TestTransform) Pack() *Abds {
-	abds := New()
-	abds.S("WHAT", g.what)
-	return abds
-}
-
-func (g *TestTransform) UnPack(input *Abds) error {
-	if input == nil {
-		return fmt.Errorf("ABDS Invalid Abds parameter passed")
-	}
-	//g.what = input.T("WHAT").V()
-	return nil
-}
 
 func init() {
 
@@ -109,13 +86,9 @@ func init() {
 
 	//Structural test cases
 	gats = append(gats, New())
-	gats = append(gats, &TestTransform{what: "transform"})
-	gats = append(gats, &TestNotTransform{what: "nottransform"})
 
 	//Several illegal entries
 	gate = append(gate, Abds{})
-	gate = append(gate, TestTransform{what: "transform"})
-	gate = append(gate, TestNotTransform{what: "nottransform"})
 	gate = append(gate, []byte{111, 112, 113, 114})
 	gate = append(gate, []float32{300.1, 300.2, 300.3, 300.4})
 	gate = append(gate, map[uint]int{

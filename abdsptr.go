@@ -80,10 +80,6 @@ func (g *Abds) Pch(parm interface{}) *Abds {
 	return g.g(parm).pabds()
 }
 
-func (g *Abds) Ptran(parm interface{}) *AbdsTransform {
-	return g.g(parm).ptran()
-}
-
 func (g *Abds) Praw(parm interface{}) interface{} {
 	return g.g(parm).v()
 }

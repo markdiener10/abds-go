@@ -71,7 +71,6 @@ g.S(&mystruct)
 g.S(&mymap)
 g.S(&myarray)
 ```
-Any struct that comforms to the AbdsTransform interface will have additional streaming support from another library
 
 - Errors
 
