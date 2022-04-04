@@ -138,90 +138,90 @@ func (g *AbdsIter) S(val interface{}) {
 	if g == nil {
 		return
 	}
-	err := g.pItem.S(val)
-	if err != nil {
-		g.pAbds.Errs().Log(err)
+	if g.pAbds == nil {
+		return
 	}
+	g.pAbds.S(g.pItem, val)
 }
 
 func (g *AbdsIter) PB() *bool {
-	return g.g().pB()
+	return g.pItem.pB()
 }
 
 func (g *AbdsIter) Pi() *int {
-	return g.g().pi()
+	return g.pItem.pi()
 }
 
 func (g *AbdsIter) Pi8() *int8 {
-	return g.g().pi8()
+	return g.pItem.pi8()
 }
 
 func (g *AbdsIter) Pi16() *int16 {
-	return g.g().pi16()
+	return g.pItem.pi16()
 }
 
 func (g *AbdsIter) Pi32() *int32 {
-	return g.g().pi32()
+	return g.pItem.pi32()
 }
 
 func (g *AbdsIter) Pi64() *int64 {
-	return g.g().pi64()
+	return g.pItem.pi64()
 }
 
 func (g *AbdsIter) Pu() *uint {
-	return g.g().pu()
+	return g.pItem.pu()
 }
 
 func (g *AbdsIter) Pu8() *uint8 {
-	return g.g().pu8()
+	return g.pItem.pu8()
 }
 
 func (g *AbdsIter) Pu16() *uint16 {
-	return g.g().pu16()
+	return g.pItem.pu16()
 }
 
 func (g *AbdsIter) Pu32() *uint32 {
-	return g.g().pu32()
+	return g.pItem.pu32()
 }
 
 func (g *AbdsIter) Pu64() *uint64 {
-	return g.g().pu64()
+	return g.pItem.pu64()
 }
 
 func (g *AbdsIter) Pf32() *float32 {
-	return g.g().pf32()
+	return g.pItem.pf32()
 }
 
 func (g *AbdsIter) Pf64() *float64 {
-	return g.g().pf64()
+	return g.pItem.pf64()
 }
 
 func (g *AbdsIter) Pc64() *complex64 {
-	return g.g().pc64()
+	return g.pItem.pc64()
 }
 
 func (g *AbdsIter) Pc128() *complex128 {
-	return g.g().pc128()
+	return g.pItem.pc128()
 }
 
 func (g *AbdsIter) Pbyte() *[]byte {
-	return g.g().pbyte()
+	return g.pItem.pbyte()
 }
 
 func (g *AbdsIter) Ps() *string {
-	return g.g().ps()
+	return g.pItem.ps()
 }
 
 func (g *AbdsIter) Padbs() *Abds {
-	return g.g().pch()
+	return g.pItem.pch()
 }
 
 func (g *AbdsIter) Pch() *Abds {
-	return g.g().pch()
+	return g.pItem.pch()
 }
 
 func (g *AbdsIter) Praw() interface{} {
-	return g.g().V()
+	return g.pItem.V()
 }
 
 func (g *AbdsIter) Pitem() *AbdsItem {
@@ -231,70 +231,70 @@ func (g *AbdsIter) Pitem() *AbdsItem {
 // #############################################
 
 func (g *AbdsIter) V() interface{} {
-	return g.g().V()
+	return g.pItem.V()
 }
 
 func (g *AbdsIter) Vb() bool {
-	return g.g().vB()
+	return g.pItem.vB()
 }
 
 func (g *AbdsIter) Vi() int {
-	return g.g().vi()
+	return g.pItem.vi()
 }
 
 func (g *AbdsIter) Vi8() int8 {
-	return g.g().vi8()
+	return g.pItem.vi8()
 }
 
 func (g *AbdsIter) Vi16() int16 {
-	return g.g().vi16()
+	return g.pItem.vi16()
 }
 
 func (g *AbdsIter) Vi32() int32 {
-	return g.g().vi32()
+	return g.pItem.vi32()
 }
 
 func (g *AbdsIter) Vi64() int64 {
-	return g.g().vi64()
+	return g.pItem.vi64()
 }
 
 func (g *AbdsIter) Vu() uint {
-	return g.g().vu()
+	return g.pItem.vu()
 }
 
 func (g *AbdsIter) Vu8() uint8 {
-	return g.g().vu8()
+	return g.pItem.vu8()
 }
 
 func (g *AbdsIter) Vu16() uint16 {
-	return g.g().vu16()
+	return g.pItem.vu16()
 }
 
 func (g *AbdsIter) Vu32() uint32 {
-	return g.g().vu32()
+	return g.pItem.vu32()
 }
 
 func (g *AbdsIter) Vu64() uint64 {
-	return g.g().vu64()
+	return g.pItem.vu64()
 }
 
 func (g *AbdsIter) Vf32() float32 {
-	return g.g().vf32()
+	return g.pItem.vf32()
 }
 
 func (g *AbdsIter) Vf64() float64 {
-	return g.g().vf64()
+	return g.pItem.vf64()
 }
 
 func (g *AbdsIter) Vc64() complex64 {
-	return g.g().vc64()
+	return g.pItem.vc64()
 }
 
 func (g *AbdsIter) Vc128() complex128 {
-	return g.g().vc128()
+	return g.pItem.vc128()
 }
 
 func (g *AbdsIter) Vs() string {
 	//Comment More
-	return g.g().vs()
+	return g.pItem.vs()
 }

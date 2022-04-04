@@ -2,6 +2,7 @@ package abds
 
 import (
 	"fmt"
+	"reflect"
 	"strings"
 )
 
@@ -12,29 +13,46 @@ func (g *Abds) S(parms ...interface{}) *Abds {
 		return nil
 	}
 
-	var err error = nil
 	var idx uint = 0
 	var pItem *AbdsItem = nil
+	var gch *Abds
+	var ok bool
 
 	switch len(parms) {
 	case 0:
 		return g
 	case 1:
-		if parms[0], err = checkval(parms[0]); err != nil {
-			g.Log(err)
-			return g
+		parms[0] = g.checkval(parms[0])
+		gch, ok = parms[0].(*Abds)
+		if ok {
+			gch.root = false
+			if g.root {
+				gch.link = g
+			} else {
+				gch.link = g.link
+			}
 		}
 		pItem = &AbdsItem{tag: 0, val: parms[0]}
 		g.vals = append(g.vals, pItem)
 		return g
 	}
 
-	if parms[1], err = checkval(parms[1]); err != nil {
-		g.Log(err)
-		return g
+	parms[1] = g.checkval(parms[1])
+
+	if gch, ok = parms[0].(*Abds); ok {
+		gch.root = false
+		if g.root {
+			gch.link = g
+		} else {
+			gch.link = g.link
+		}
 	}
 
 	switch parms[0].(type) {
+	case *AbdsItem:
+		pItem = parms[0].(*AbdsItem)
+		pItem.val = parms[1]
+		return g
 	case string:
 		stag := strings.TrimSpace(parms[0].(string))
 		if stag == "" {
@@ -55,7 +73,7 @@ func (g *Abds) S(parms ...interface{}) *Abds {
 		idx = parms[0].(uint)
 		break
 	default:
-		g.Log(fmt.Errorf("ABDSitem S() invalid tag/idx parameter"))
+		g.Log(fmt.Errorf("ABDSitem S() invalid tag/idx/AbdsItem parameter"))
 		return g
 	}
 
@@ -69,37 +87,75 @@ func (g *Abds) S(parms ...interface{}) *Abds {
 	return g
 }
 
+func (g *Abds) checkval(val interface{}) interface{} {
+
+	if val == nil {
+		return nil
+	}
+
+	var gPointer bool = false
+	baseType := reflect.TypeOf(val)
+	baseVal := reflect.ValueOf(val)
+	if baseType.Kind() == reflect.Pointer {
+		baseVal = reflect.Indirect(baseVal)
+		baseType = baseVal.Type()
+		gPointer = true
+	}
+
+	if baseType.Kind() == reflect.Interface {
+		baseVal = baseVal.Elem()
+		baseType = baseVal.Type()
+	}
+
+	switch baseType.Kind() {
+	case reflect.Invalid, reflect.Chan, reflect.Func, reflect.Interface, reflect.UnsafePointer:
+		g.Log(fmt.Errorf("ABDSitem preset() invalid type:%s", baseType.String()))
+		return nil
+	case reflect.Bool, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128, reflect.String:
+		if !gPointer {
+			gp := reflect.New(baseType)
+			gp.Elem().Set(baseVal)
+			val = gp.Interface()
+		}
+		break
+	case reflect.Slice:
+	case reflect.Array:
+	case reflect.Map, reflect.Struct:
+	default:
+		g.Log(fmt.Errorf("ABDSitem S() unknown reflect type:%s", baseType.String()))
+		return nil
+	}
+	return val
+}
+
 //Array insert capability
 func (g *Abds) Sinsert(idx uint, val interface{}) bool {
 
 	if g == nil {
 		return false
 	}
-	var err error
-	if val, err = checkval(val); err != nil {
-		return false
-	}
-	pItem := &AbdsItem{tag: 0, val: nil}
-	pItem.val = val
-	nLen := g.Len()
-
-	//Always add one to the end
-	g.vals = append(g.vals, nil)
-	if nLen <= idx {
-		return false
+	val = g.checkval(val)
+	pItem := &AbdsItem{tag: 0, val: val}
+	g.vals = append(g.vals, pItem)
+	if g.Len() <= idx {
+		return true
 	}
 	var pSrc *AbdsItem
 	var pDst *AbdsItem
 
 	//Shift the values up
-	for slot := g.Len() - 2; slot >= idx-1; slot-- {
-		pSrc = g.vals[slot]
-		pDst = g.vals[slot+1]
+	for slot := g.Len() - 1; slot > idx-1; slot-- {
+		pSrc = g.vals[slot-1]
+		pDst = g.vals[slot]
 		pDst.val = pSrc.val
 		pDst.tag = pSrc.tag
 		pSrc.val = nil
 		pSrc.tag = 0
 	}
-	g.vals[idx-1] = pItem
+	pItem = g.vals[idx-1]
+	pItem.tag = 0
+	pItem.val = val
 	return true
 }

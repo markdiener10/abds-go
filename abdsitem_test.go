@@ -7,17 +7,17 @@ import (
 //Test an externally define structure so we can integrate
 //project specific structures into the abds framework
 
+type TestStruct struct {
+	what string
+}
+
 var gatb []interface{}
-var gats []interface{}
-var gate []interface{} //Error cases
 
 func init() {
 
 	var gv interface{} = nil
 
 	gatb = make([]interface{}, 0)
-	gats = make([]interface{}, 0)
-	gate = make([]interface{}, 0)
 
 	gatb = append(gatb, nil)
 	gatb = append(gatb, true)
@@ -37,6 +37,17 @@ func init() {
 	gatb = append(gatb, complex(41, -42))
 	gatb = append(gatb, complex(43, -44))
 	gatb = append(gatb, "stringtest")
+	gatb = append(gatb, TestStruct{what: "whatnonpointer"})
+	gatb = append(gatb, Abds{root: true, link: NewErrs(), vals: make([]*AbdsItem, 0), tags: NewTags()})
+	gatb = append(gatb, map[uint]int{
+		50: 51,
+		52: 53,
+		54: 55,
+		56: 67,
+	})
+
+	ga := []int{61, 62, 63, 64}
+	gatb = append(gatb, ga[1:2])
 
 	gv = true
 	gatb = append(gatb, &gv)
@@ -76,6 +87,7 @@ func init() {
 	gatb = append(gatb, &gv)
 	gv = []float32{300.1, 300.2, 300.3, 300.4}
 	gatb = append(gatb, &gv)
+	gatb = append(gatb, &TestStruct{what: "whatpointer"})
 	gv = map[uint]int{
 		400: 401,
 		402: 403,
@@ -84,67 +96,25 @@ func init() {
 	}
 	gatb = append(gatb, &gv)
 
-	//Structural test cases
-	gats = append(gats, New())
+	gv = ga[1:2]
+	gatb = append(gatb, &gv)
 
-	//Several illegal entries
-	gate = append(gate, Abds{})
-	gate = append(gate, []byte{111, 112, 113, 114})
-	gate = append(gate, []float32{300.1, 300.2, 300.3, 300.4})
-	gate = append(gate, map[uint]int{
-		400: 401,
-		402: 403,
-		404: 405,
-		406: 407,
-	})
+	gatb = append(gatb, New())
 
 }
 
 func TestItemOperations(t *testing.T) {
 
-	var err error
-	var idx int
-
-	_ = idx
+	//var idx int
 
 	g := New()
-	gitem := g.g("TAG")
-	var gtest interface{}
-	for idx, gtest = range gatb {
-		err = gitem.S(gtest)
-		if err != nil {
-			g.Log(err)
-		}
+	var val interface{}
+	for _, val = range gatb {
+		g.S(val)
 	}
 
 	if g.IsErr() {
-		t.Error("Test Item Operations errors A")
-	}
-
-	g.ErrorClear()
-
-	for idx, gtest = range gats {
-		err = gitem.S(gtest)
-		if err != nil {
-			g.Log(err)
-		}
-
-	}
-
-	if g.IsErr() {
-		t.Error("Test Item Operations errors B")
-	}
-
-	g.ErrorClear()
-	for idx, gtest = range gate {
-		err = gitem.S(gtest)
-		if err != nil {
-			g.Log(err)
-		}
-		if !g.IsErr() {
-			t.Error("Test Item Operations should have errors C")
-		}
-		g.ErrorClear()
+		t.Errorf("Test Item Operations errors A:%s", g.Errs().Content())
 	}
 
 }

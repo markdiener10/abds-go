@@ -11,7 +11,7 @@ func TestItemPtrOperations(t *testing.T) {
 
 	for _, git := range gatb {
 
-		gitem.S(git)
+		g.S(gitem, git)
 
 		switch git.(type) {
 		case *bool:

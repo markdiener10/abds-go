@@ -6,7 +6,7 @@ func (g *AbdsItem) pB() *bool {
 	case *bool:
 		break
 	default:
-		g.S(g.vB())
+		g.val = g.cv(g.vB())
 	}
 	return g.val.(*bool)
 }
@@ -17,7 +17,7 @@ func (g *AbdsItem) pi() *int {
 	case *int:
 		break
 	default:
-		g.S(g.vi())
+		g.val = g.cv(g.vi())
 	}
 	return (g.val.(*int))
 }
@@ -28,7 +28,7 @@ func (g *AbdsItem) pi8() *int8 {
 	case *int8:
 		break
 	default:
-		g.S(g.vi8())
+		g.val = g.cv(g.vi8())
 	}
 	return (g.val.(*int8))
 }
@@ -39,7 +39,7 @@ func (g *AbdsItem) pi16() *int16 {
 	case *int:
 		break
 	default:
-		g.S(g.vi16())
+		g.val = g.cv(g.vi16())
 	}
 	return (g.val.(*int16))
 }
@@ -50,7 +50,7 @@ func (g *AbdsItem) pi32() *int32 {
 	case *int32:
 		break
 	default:
-		g.S(g.vi32())
+		g.val = g.cv(g.vi32())
 	}
 	return (g.val.(*int32))
 }
@@ -61,7 +61,7 @@ func (g *AbdsItem) pi64() *int64 {
 	case *int64:
 		break
 	default:
-		g.S(g.vi64())
+		g.val = g.cv(g.vi64())
 	}
 	return (g.val.(*int64))
 }
@@ -72,7 +72,7 @@ func (g *AbdsItem) pu() *uint {
 	case *uint:
 		break
 	default:
-		g.S(g.vu())
+		g.val = g.cv(g.vu())
 	}
 	return (g.val.(*uint))
 }
@@ -83,7 +83,7 @@ func (g *AbdsItem) pu8() *uint8 {
 	case *uint8:
 		break
 	default:
-		g.S(g.vu8())
+		g.val = g.cv(g.vu8())
 	}
 	return (g.val.(*uint8))
 }
@@ -94,7 +94,7 @@ func (g *AbdsItem) pu16() *uint16 {
 	case *uint16:
 		break
 	default:
-		g.S(g.vu16())
+		g.val = g.cv(g.vu16())
 	}
 	return (g.val.(*uint16))
 }
@@ -105,7 +105,7 @@ func (g *AbdsItem) pu32() *uint32 {
 	case *uint32:
 		break
 	default:
-		g.S(g.vu32())
+		g.val = g.cv(g.vu32())
 	}
 	return (g.val.(*uint32))
 }
@@ -116,7 +116,7 @@ func (g *AbdsItem) pu64() *uint64 {
 	case *uint64:
 		break
 	default:
-		g.S(g.vu64())
+		g.val = g.cv(g.vu64())
 	}
 	return (g.val.(*uint64))
 }
@@ -127,7 +127,7 @@ func (g *AbdsItem) pf32() *float32 {
 	case *float32:
 		break
 	default:
-		g.S(g.vf32())
+		g.val = g.cv(g.vf32())
 	}
 	return (g.val.(*float32))
 }
@@ -138,7 +138,7 @@ func (g *AbdsItem) pf64() *float64 {
 	case *float64:
 		break
 	default:
-		g.S(g.vf64())
+		g.val = g.cv(g.vf64())
 	}
 	return (g.val.(*float64))
 }
@@ -149,7 +149,7 @@ func (g *AbdsItem) pc64() *complex64 {
 	case *complex64:
 		break
 	default:
-		g.S(g.vc64())
+		g.val = g.cv(g.vc64())
 	}
 	return (g.val.(*complex64))
 }
@@ -160,7 +160,7 @@ func (g *AbdsItem) pc128() *complex128 {
 	case *complex128:
 		break
 	default:
-		g.S(g.vc128())
+		g.val = g.cv(g.vc128())
 	}
 	return (g.val.(*complex128))
 }
@@ -171,7 +171,7 @@ func (g *AbdsItem) ps() *string {
 	case *string:
 		break
 	default:
-		g.S(g.vs())
+		g.val = g.cv(g.vs())
 	}
 	return g.val.(*string)
 }
@@ -182,7 +182,7 @@ func (g *AbdsItem) pb() *[]byte {
 	case *[]byte:
 		break
 	default:
-		g.S(g.vB())
+		g.val = g.cv(g.vbyte())
 	}
 	return g.val.(*[]byte)
 }

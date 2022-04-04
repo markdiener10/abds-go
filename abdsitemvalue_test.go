@@ -10,7 +10,7 @@ func TestItemValueOperations(t *testing.T) {
 	gitem := g.g("TAG")
 
 	for _, git := range gatb {
-		gitem.S(git)
+		g.S(gitem, git)
 		gitem.vi()
 		gitem.vi8()
 		gitem.vi16()

@@ -835,3 +835,46 @@ func (g *AbdsItem) vs() string {
 	return ""
 }
 
+func (g *AbdsItem) vbyte() []byte {
+
+	switch g.val.(type) {
+	case *bool:
+		if g.val == true {
+			return []byte{1}
+		}
+		return []byte{0}
+	case *int:
+		return []byte(strconv.FormatInt(int64(*g.val.(*int)), 10))
+	case *int8:
+		return []byte(strconv.FormatInt(int64(*g.val.(*int8)), 10))
+	case *int16:
+		return []byte(strconv.FormatInt(int64(*g.val.(*int16)), 10))
+	case *int32:
+		return []byte(strconv.FormatInt(int64(*g.val.(*int32)), 10))
+	case *int64:
+		return []byte(strconv.FormatInt(int64(*g.val.(*int64)), 10))
+	case *uint:
+		return []byte(strconv.FormatUint(uint64(*g.val.(*uint)), 10))
+	case *uint8:
+		return []byte(strconv.FormatUint(uint64(*g.val.(*uint8)), 10))
+	case *uint16:
+		return []byte(strconv.FormatUint(uint64(*g.val.(*uint16)), 10))
+	case *uint32:
+		return []byte(strconv.FormatUint(uint64(*g.val.(*uint32)), 10))
+	case *uint64:
+		return []byte(strconv.FormatUint(uint64(*g.val.(*uint64)), 10))
+	case *float32:
+		return []byte(strconv.FormatFloat(float64(*g.val.(*float32)), 'f', -1, 32))
+	case *float64:
+		return []byte(strconv.FormatFloat(float64(*g.val.(*float64)), 'f', -1, 64))
+	case *complex64:
+		return []byte(strconv.FormatComplex(complex128(*g.val.(*complex64)), 'f', -1, 64))
+	case *complex128:
+		return []byte(strconv.FormatComplex(complex128(*g.val.(*complex128)), 'f', -1, 128))
+	case *[]byte:
+		return *g.val.(*[]byte)
+	case *string:
+		return []byte(*g.val.(*string))
+	}
+	return []byte{}
+}
