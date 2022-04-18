@@ -1,6 +1,6 @@
 Modified MIT License
 
-Copyright (c) 2021 Mark Diener / Tek Devo LLC
+Copyright (c) 2011-2021+ Mark Diener / Tek Devo LLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -10,7 +10,7 @@ furnished to do so, subject to the following conditions:
 
 1) Individual/Private usage of the software is permitted without restriction.  Pre-production, internal evaluation and testing is also permitted without restriction.
 
-2) Corporate/Individual commercial production users of the software go to https://github.com/markdiener10/abds-go/issues and provide your name/company to be added to the LICENSEES file.  Permission grant is non-revocable but limited to the assignees' commercial production usage only. Owners and subsidiaries should request specific commercial production usage as described above.  
+2) Corporate/Individual commercial production users of the software go to https://github.com/markdiener10/abds-go/issues and provide your name/company/usage to be added to the LICENSEES file.  Permission grant is non-revocable but limited to the assignees' commercial production usage only. Owners and subsidiaries should request specific commercial production usage as described above.  
 
 3) The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software:

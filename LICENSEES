@@ -1,7 +1,8 @@
-# Licensees granted commercial use permission
-YEAR,Name,Company,Location
-2012,Michael Rader,N7 Systems LLC,Colleyville TX
-2015,Lance Gleason,Polyglot Programming LLC,Atlanta GA
-2019,Jim Poulson,AnywhereCommerce,Fresno CA
-2020,TSYS,Columbus GA
-2020,ProPay Inc,Concord CA
+# Licensees granted commercial usage permission
+YEAR,Name,Company,Location,Usage
+2011,Jennifer Czarkowski,Now Dancing,New York City,NY,Social Events payments ops for organizers
+2012,Michael Rader,N7 Systems LLC,Colleyville TX,Intermodal Facility Ops
+2015,Lance Gleason,Polyglot Programming LLC,Atlanta GA,Data migrations & MerchantWarehouse (Cayan) Payments ops
+2019,Jim Poulson,AnywhereCommerce,Fresno CA,ISV partner payment modules
+2019,TSYS,Columbus GA,Anywhere Commerce ISV partner payment modules
+2019,ProPay Inc,Concord CA,Anywhere Commerce ISV partner payment modules
