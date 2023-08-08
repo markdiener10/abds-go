@@ -1,4 +1,4 @@
-# abds-go
+# abds-go (unfinished)
 
 Agile binary data structure (ABDS) for Golang
 
